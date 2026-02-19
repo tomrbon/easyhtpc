@@ -1,0 +1,22 @@
+{
+  "amazon": {
+    "tag": "easyhtpc-20",
+    "baseUrl": "https://www.amazon.com/dp/",
+    "trackingParam": "tag"
+  },
+  "nordvpn": {
+    "ref": "easyhtpc",
+    "baseUrl": "https://nordvpn.com/",
+    "trackingParam": "ref"
+  },
+  "expressvpn": {
+    "ref": "easyhtpc",
+    "baseUrl": "https://www.expressvpn.com/",
+    "trackingParam": "ref"
+  },
+  "surfshark": {
+    "ref": "easyhtpc",
+    "baseUrl": "https://surfshark.com/",
+    "trackingParam": "ref"
+  }
+}

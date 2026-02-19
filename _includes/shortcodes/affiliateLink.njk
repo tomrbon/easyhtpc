@@ -1,0 +1,33 @@
+{#
+  Inline Affiliate Link
+  
+  Usage: {% affiliateLink "nvidia-shield-tv-pro", "NVIDIA Shield TV Pro" %}
+  
+  Parameters:
+  - productId: Product ID from products.json
+  - displayText: Text to display as the link (optional, uses product name if not provided)
+#}
+
+{% set product = products[productId] or products.hardware[productId] or products.vpn[productId] or products.software[productId] %}
+{% set affiliateData = affiliates[product.affiliate] %}
+
+{% if affiliateData %}
+  {% if affiliateData.trackingParam == "tag" %}
+    {% set affiliateUrl = affiliateData.baseUrl ~ product.asin ~ "?tag=" ~ affiliateData.tag %}
+  {% elif affiliateData.trackingParam == "ref" %}
+    {% set affiliateUrl = product.landingPage or (affiliateData.baseUrl ~ "?ref=" ~ affiliateData.ref) %}
+  {% else %}
+    {% set affiliateUrl = affiliateData.baseUrl %}
+  {% endif %}
+{% else %}
+  {% set affiliateUrl = product.url or "#" %}
+{% endif %}
+
+<a href="{{ affiliateUrl }}" 
+   class="affiliate-link"
+   data-product="{{ product.name | default(productId) }}"
+   data-price="{{ product.price }}"
+   target="_blank"
+   rel="noopener sponsored nofollow">
+  {{ displayText or product.name }}
+</a>

@@ -1,0 +1,23 @@
+{
+  "name": "easyhtpc-site",
+  "version": "1.0.0",
+  "description": "EasyHTPC - Your Guide to Home Theater PCs & Media Centers",
+  "scripts": {
+    "build": "npx @11ty/eleventy",
+    "serve": "npx @11ty/eleventy --serve",
+    "clean": "rm -rf _site"
+  },
+  "keywords": [
+    "htpc",
+    "media center",
+    "plex",
+    "jellyfin",
+    "streaming",
+    "home theater"
+  ],
+  "author": "EasyHTPC",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}

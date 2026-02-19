@@ -1,0 +1,364 @@
+{#
+  Structured Data (JSON-LD) Partial
+  Include in the <head> after meta tags
+  
+  Generates schema.org markup for:
+    - Organization (site-wide)
+    - WebSite with SearchAction (site-wide)
+    - Article (for article pages)
+    - Product (for review/product pages)
+    - BreadcrumbList (for pages with breadcrumbs)
+    - FAQPage (for articles with FAQ sections)
+    - HowTo (for tutorial articles)
+  
+  Usage:
+    Include at base level: {% include "partials/schema.njk" %}
+    
+    Front matter options:
+      - schemaType: "article" | "product" | "faq" | "howto" | "webpage"
+      - article: Article metadata object
+      - product: Product metadata object
+      - breadcrumbs: Array of breadcrumb items
+      - faq: Array of FAQ questions/answers
+      - steps: Array of how-to steps
+#}
+
+{%- set siteUrl = "https://easyhtpc.com" -%}
+{%- set siteName = "EasyHTPC" -%}
+{%- set siteLogo = siteUrl + "/images/logo.png" -%}
+
+<script type="application/ld+json">
+[
+  {# ═══════════════════════════════════════════════════════════════════════════
+     ORGANIZATION SCHEMA
+     Always include - identifies the site publisher
+     ═══════════════════════════════════════════════════════════════════════════ #}
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "{{ siteUrl }}/#organization",
+    "name": "{{ siteName }}",
+    "url": "{{ siteUrl }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ siteLogo }}",
+      "width": 600,
+      "height": 60
+    },
+    "description": "Your complete guide to home theater PCs, streaming devices, media servers, and cord-cutting.",
+    "sameAs": [
+      "https://twitter.com/easyhtpc",
+      "https://www.youtube.com/@easyhtpc",
+      "https://www.facebook.com/easyhtpc"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "email": "contact@easyhtpc.com"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "US"
+    }
+  },
+
+  {# ═══════════════════════════════════════════════════════════════════════════
+     WEBSITE SCHEMA WITH SEARCH ACTION
+     Enables sitelinks searchbox in Google results
+     Always include on all pages
+     ═══════════════════════════════════════════════════════════════════════════ #}
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "{{ siteUrl }}/#website",
+    "name": "{{ siteName }}",
+    "url": "{{ siteUrl }}",
+    "publisher": {
+      "@id": "{{ siteUrl }}/#organization"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "{{ siteUrl }}/search?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    },
+    "inLanguage": "en-US"
+  }
+
+  {%- if schemaType == "article" or article %}
+
+  {# ═══════════════════════════════════════════════════════════════════════════
+     ARTICLE SCHEMA
+     For blog posts, guides, reviews, tutorials
+     ═══════════════════════════════════════════════════════════════════════════ #}
+  ,{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": "{{ siteUrl }}{{ page.url }}#article",
+    "isPartOf": {
+      "@id": "{{ siteUrl }}/#website"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{ siteUrl }}{{ page.url }}"
+    },
+    "headline": "{{ title }}",
+    "name": "{{ title }}",
+    "description": "{{ description | default('') | escape }}",
+    {%- if article.image or image %}
+    "image": {
+      "@type": "ImageObject",
+      "url": "{{ siteUrl }}{{ article.image | default(image) }}",
+      "width": 1200,
+      "height": 630
+    },
+    {%- endif %}
+    "datePublished": "{{ article.published | default(page.date | dateToISOString) }}",
+    {%- if article.modified %}
+    "dateModified": "{{ article.modified }}",
+    {%- else %}
+    "dateModified": "{{ article.published | default(page.date | dateToISOString) }}",
+    {%- endif %}
+    "author": {
+      "@type": "Person",
+      "name": "{{ article.author | default('EasyHTPC Team') }}",
+      "url": "{{ siteUrl }}/about/"
+    },
+    "publisher": {
+      "@id": "{{ siteUrl }}/#organization"
+    },
+    "articleSection": "{{ article.section | default('Technology') }}",
+    {%- if article.tags %}
+    "keywords": "{{ article.tags | join(', ') }}",
+    {%- endif %}
+    "wordCount": {{ article.wordCount | default(2000) }},
+    "inLanguage": "en-US"
+  }
+  {%- endif %}
+
+  {%- if schemaType == "product" or product %}
+
+  {# ═══════════════════════════════════════════════════════════════════════════
+     PRODUCT SCHEMA
+     For product review articles - helps with rich snippets
+     ═══════════════════════════════════════════════════════════════════════════ #}
+  ,{
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": "{{ siteUrl }}{{ page.url }}#product",
+    "name": "{{ product.name }}",
+    "description": "{{ product.description | default(description) | escape }}",
+    {%- if product.image or image %}
+    "image": "{{ siteUrl }}{{ product.image | default(image) }}",
+    {%- endif %}
+    "brand": {
+      "@type": "Brand",
+      "name": "{{ product.brand | default('Unknown') }}"
+    },
+    {%- if product.sku %}
+    "sku": "{{ product.sku }}",
+    {%- endif %}
+    {%- if product.mpn %}
+    "mpn": "{{ product.mpn }}",
+    {%- endif %}
+    {%- if product.asin %}
+    "gtin": "{{ product.asin }}",
+    {%- endif %}
+    "offers": {
+      "@type": "Offer",
+      "url": "{{ siteUrl }}{{ page.url }}",
+      "priceCurrency": "{{ product.currency | default('USD') }}",
+      "price": "{{ product.price | replace('$', '') | replace(',', '') }}",
+      "priceValidUntil": "{{ product.priceValidUntil | default('2026-12-31') }}",
+      "availability": "https://schema.org/{{ product.availability | default('InStock') }}",
+      "seller": {
+        "@id": "{{ siteUrl }}/#organization"
+      },
+      {%- if product.affiliateUrl %}
+      "itemOffered": {
+        "@type": "Product",
+        "url": "{{ product.affiliateUrl }}"
+      },
+      {%- endif %}
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingRate": {
+          "@type": "MonetaryAmount",
+          "value": "0",
+          "currency": "USD"
+        },
+        "shippingDestination": {
+          "@type": "DefinedRegion",
+          "addressCountry": "US"
+        }
+      }
+    }
+    {%- if product.rating %}
+    ,
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "{{ product.rating }}",
+      "bestRating": "5",
+      "worstRating": "1",
+      "ratingCount": "{{ product.ratingCount | default(1) }}"
+    }
+    {%- endif %}
+    {%- if product.review %}
+    ,
+    "review": {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "{{ product.review.rating | default(product.rating) }}",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "{{ product.review.author | default('EasyHTPC Team') }}"
+      },
+      "reviewBody": "{{ product.review.body | default(description) | truncate(200) | escape }}"
+    }
+    {%- endif %}
+  }
+  {%- endif %}
+
+  {%- if breadcrumbs %}
+
+  {# ═══════════════════════════════════════════════════════════════════════════
+     BREADCRUMB LIST SCHEMA
+     For navigation breadcrumbs - improves search display
+     ═══════════════════════════════════════════════════════════════════════════ #}
+  ,{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": "{{ siteUrl }}{{ page.url }}#breadcrumb",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "{{ siteUrl }}/"
+      }
+      {%- for crumb in breadcrumbs %}
+      ,{
+        "@type": "ListItem",
+        "position": {{ loop.index + 1 }},
+        "name": "{{ crumb.name }}",
+        "item": "{{ siteUrl }}{{ crumb.url }}"
+      }
+      {%- endfor %}
+    ]
+  }
+  {%- endif %}
+
+  {%- if schemaType == "faq" or faq %}
+
+  {# ═══════════════════════════════════════════════════════════════════════════
+     FAQ PAGE SCHEMA
+     For articles with FAQ sections - enables FAQ rich snippets
+     ═══════════════════════════════════════════════════════════════════════════ #}
+  ,{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": "{{ siteUrl }}{{ page.url }}#faq",
+    "mainEntity": [
+      {%- for item in faq %}
+      {
+        "@type": "Question",
+        "name": "{{ item.question | escape }}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{{ item.answer | escape }}"
+        }
+      }{%- if not loop.last %},{% endif %}
+      {%- endfor %}
+    ]
+  }
+  {%- endif %}
+
+  {%- if schemaType == "howto" or steps %}
+
+  {# ═══════════════════════════════════════════════════════════════════════════
+     HOW-TO SCHEMA
+     For tutorial articles - enables step-by-step rich snippets
+     ═══════════════════════════════════════════════════════════════════════════ #}
+  ,{
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "@id": "{{ siteUrl }}{{ page.url }}#howto",
+    "name": "{{ title }}",
+    "description": "{{ description | default('') | escape }}",
+    {%- if image %}
+    "image": "{{ siteUrl }}{{ image }}",
+    {%- endif %}
+    "totalTime": "{{ howto.totalTime | default('PT30M') }}",
+    "estimatedCost": {
+      "@type": "MonetaryAmount",
+      "currency": "USD",
+      "value": "{{ howto.cost | default('0') }}"
+    },
+    "step": [
+      {%- for step in steps %}
+      {
+        "@type": "HowToStep",
+        "position": {{ loop.index }},
+        "name": "{{ step.name | default('Step ' + loop.index) }}",
+        "text": "{{ step.text | escape }}",
+        {%- if step.image %}
+        "image": "{{ siteUrl }}{{ step.image }}",
+        {%- endif %}
+        {%- if step.url %}
+        "url": "{{ siteUrl }}{{ step.url }}"
+        {%- endif %}
+      }{%- if not loop.last %},{% endif %}
+      {%- endfor %}
+    ]
+    {%- if howto.supplies %}
+    ,
+    "supply": [
+      {%- for supply in howto.supplies %}
+      {
+        "@type": "HowToSupply",
+        "name": "{{ supply.name }}"
+      }{%- if not loop.last %},{% endif %}
+      {%- endfor %}
+    ]
+    {%- endif %}
+    {%- if howto.tools %}
+    ,
+    "tool": [
+      {%- for tool in howto.tools %}
+      {
+        "@type": "HowToTool",
+        "name": "{{ tool.name }}"
+      }{%- if not loop.last %},{% endif %}
+      {%- endfor %}
+    ]
+    {%- endif %}
+  }
+  {%- endif %}
+
+  {%- if schemaType == "webpage" %}
+
+  {# ═══════════════════════════════════════════════════════════════════════════
+     WEB PAGE SCHEMA
+     Generic schema for non-article pages
+     ═══════════════════════════════════════════════════════════════════════════ #}
+  ,{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "{{ siteUrl }}{{ page.url }}#webpage",
+    "url": "{{ siteUrl }}{{ page.url }}",
+    "name": "{{ title }}",
+    "description": "{{ description | default('') | escape }}",
+    "isPartOf": {
+      "@id": "{{ siteUrl }}/#website"
+    },
+    "inLanguage": "en-US"
+  }
+  {%- endif %}
+]
+</script>

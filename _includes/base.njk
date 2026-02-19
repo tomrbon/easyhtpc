@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{% if description %}{{ description }}{% else %}{{ site.description }}{% endif %}">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="color-scheme" content="dark">
+  
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="{% if title %}{{ title }} | {% endif %}{{ site.name }}">
+  <meta property="og:description" content="{% if description %}{{ description }}{% else %}{{ site.description }}{% endif %}">
+  <meta property="og:type" content="{% if layout == 'article' %}article{% else %}website{% endif %}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  {% if image %}
+  <meta property="og:image" content="{{ image }}">
+  {% endif %}
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% if title %}{{ title }} | {% endif %}{{ site.name }}">
+  <meta name="twitter:description" content="{% if description %}{{ description }}{% else %}{{ site.description }}{% endif %}">
+  
+  <title>{% if title %}{{ title }} | {% endif %}{{ site.name }}</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📺</text></svg>">
+  
+  <link rel="stylesheet" href="{{ '/css/style.css' | url }}">
+  
+  <style>
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="sr-only">Skip to main content</a>
+  
+  <header class="site-header">
+    <div class="container">
+      <div class="header-content">
+        <a href="/" class="logo" aria-label="{{ site.name }} - Home">
+          <span class="logo-icon" aria-hidden="true">📺</span>
+          <span class="logo-text">Easy<span class="logo-accent">HTPC</span></span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" aria-expanded="false">
+              Categories
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="nav-dropdown-menu">
+              {% for cat in categories %}
+              <a href="/categories/{{ cat.slug }}/" class="nav-dropdown-link">
+                <span class="nav-dropdown-icon">{{ cat.icon }}</span>
+                {{ cat.name }}
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+          <a href="/articles/" class="nav-link">
+            <span>Articles</span>
+          </a>
+          <a href="/about/" class="nav-link">
+            <span>About</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-content">
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-columns">
+          <div class="footer-brand">
+            <div class="footer-logo">
+              <span class="logo-icon" aria-hidden="true">📺</span>
+              <span class="logo-text">Easy<span class="logo-accent">HTPC</span></span>
+            </div>
+            <p class="footer-tagline">{{ site.tagline }}</p>
+          </div>
+          <div class="footer-links">
+            <h4>Categories</h4>
+            <ul>
+              {% for cat in categories %}
+              <li><a href="/categories/{{ cat.slug }}/">{{ cat.icon }} {{ cat.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="footer-links">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="/articles/">All Articles</a></li>
+              <li><a href="/about/">About Us</a></li>
+              <li><a href="/privacy/">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p class="footer-text">
+            © {{ 2026 }} {{ site.name }} — {{ site.tagline }}
+          </p>
+          <p class="footer-disclosure">
+            <small>We may earn affiliate commissions from purchases made through links on this site. This helps support the site at no extra cost to you.</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      const dropdowns = document.querySelectorAll('.nav-dropdown');
+      dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.nav-dropdown-toggle');
+        const menu = dropdown.querySelector('.nav-dropdown-menu');
+        
+        toggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const isOpen = menu.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', isOpen.toString());
+          
+          dropdowns.forEach(other => {
+            if (other !== dropdown) {
+              other.querySelector('.nav-dropdown-menu').classList.remove('open');
+              other.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+            }
+          });
+        });
+      });
+      
+      document.addEventListener('click', function() {
+        dropdowns.forEach(dropdown => {
+          dropdown.querySelector('.nav-dropdown-menu').classList.remove('open');
+          dropdown.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

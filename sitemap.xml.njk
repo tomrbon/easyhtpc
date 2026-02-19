@@ -1,0 +1,25 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+{%- for page in collections.sitemap | sort(attribute='url') %}
+  <url>
+    <loc>https://easyhtpc.com{{ page.url | url }}</loc>
+    <lastmod>{{ page.date | dateToISOString }}</lastmod>
+    <changefreq>{{ page.url | sitemapChangefreq(page.data) }}</changefreq>
+    <priority>{{ page.url | sitemapPriority(page.data) }}</priority>
+  {%- if page.data.image %}
+    <image:image>
+      <image:loc>https://easyhtpc.com{{ page.data.image }}</image:loc>
+    {%- if page.data.imageAlt %}
+      <image:title>{{ page.data.imageAlt | escape }}</image:title>
+    {%- endif %}
+    </image:image>
+  {%- endif %}
+  </url>
+{%- endfor %}
+</urlset>

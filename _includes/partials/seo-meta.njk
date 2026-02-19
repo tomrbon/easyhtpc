@@ -1,0 +1,158 @@
+{#
+  SEO Meta Tags Partial
+  Include in the <head> of all pages
+  
+  Required front matter:
+    - title: Page title (will be appended with site name)
+    - description: Page description (150-160 characters recommended)
+  
+  Optional front matter:
+    - image: Social sharing image path (default: /images/default-og.jpg)
+    - type: og:type (article, website, product) - default: website
+    - robots: Robots meta tag value - default: index, follow
+    - canonical: Override canonical URL
+    - article: Article-specific metadata (published, modified, author, tags)
+    - product: Product-specific metadata (price, availability, brand)
+#}
+
+{%- set siteName = "EasyHTPC" -%}
+{%- set siteUrl = "https://easyhtpc.com" -%}
+{%- set defaultDescription = "Your complete guide to home theater PCs, streaming devices, media servers, and cord-cutting in 2026." -%}
+{%- set defaultImage = "/images/default-og.jpg" -%}
+
+{#- Title processing -#}
+{%- if title -%}
+  {%- set pageTitle = title -%}
+  {%- set fullTitle = title + " | " + siteName -%}
+{%- else -%}
+  {%- set pageTitle = siteName -%}
+  {%- set fullTitle = siteName + " - Home Theater PC & Streaming Guide" -%}
+{%- endif -%}
+
+{#- Description processing -#}
+{%- set pageDescription = description | default(defaultDescription) -%}
+{%- if pageDescription | length > 160 -%}
+  {%- set pageDescription = pageDescription | slice(0, 157) + "..." -%}
+{%- endif -%}
+
+{#- Image processing -#}
+{%- set ogImage = image | default(defaultImage) -%}
+{%- if not ogImage | startsWith("http") -%}
+  {%- set ogImageUrl = siteUrl + ogImage -%}
+{%- else -%}
+  {%- set ogImageUrl = ogImage -%}
+{%- endif -%}
+
+{#- Page URL -#}
+{%- if canonical -%}
+  {%- set canonicalUrl = canonical -%}
+{%- else -%}
+  {%- set canonicalUrl = siteUrl + page.url -%}
+{%- endif -%}
+
+{#- Content type -#}
+{%- set contentType = type | default("website") -%}
+
+{#- Robots directive -#}
+{%- set robotsValue = robots | default("index, follow") -%}
+
+{# ═══════════════════════════════════════════════════════════════════════════
+   BASIC META TAGS
+   ═══════════════════════════════════════════════════════════════════════════ #}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>{{ fullTitle }}</title>
+<meta name="description" content="{{ pageDescription }}">
+<meta name="robots" content="{{ robotsValue }}">
+<link rel="canonical" href="{{ canonicalUrl }}">
+
+{#- Author and generator -#}
+<meta name="author" content="{{ siteName }}">
+<meta name="generator" content="Eleventy">
+
+{# ═══════════════════════════════════════════════════════════════════════════
+   OPEN GRAPH / FACEBOOK
+   ═══════════════════════════════════════════════════════════════════════════ #}
+<meta property="og:type" content="{{ contentType }}">
+<meta property="og:url" content="{{ canonicalUrl }}">
+<meta property="og:title" content="{{ pageTitle }}">
+<meta property="og:description" content="{{ pageDescription }}">
+<meta property="og:image" content="{{ ogImageUrl }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ imageAlt | default(pageTitle) }}">
+<meta property="og:site_name" content="{{ siteName }}">
+<meta property="og:locale" content="en_US">
+
+{#- Article-specific Open Graph -#}
+{%- if contentType == "article" and article -%}
+  {%- if article.published -%}
+    <meta property="article:published_time" content="{{ article.published }}">
+  {%- endif -%}
+  {%- if article.modified -%}
+    <meta property="article:modified_time" content="{{ article.modified }}">
+  {%- endif -%}
+  {%- if article.author -%}
+    <meta property="article:author" content="{{ article.author }}">
+  {%- endif -%}
+  {%- if article.section -%}
+    <meta property="article:section" content="{{ article.section }}">
+  {%- endif -%}
+  {%- if article.tags -%}
+    {%- for tag in article.tags -%}
+      <meta property="article:tag" content="{{ tag }}">
+    {%- endfor -%}
+  {%- endif -%}
+{%- endif -%}
+
+{#- Product-specific Open Graph -#}
+{%- if contentType == "product" and product -%}
+  <meta property="product:price:amount" content="{{ product.price | replace('$', '') }}">
+  <meta property="product:price:currency" content="{{ product.currency | default('USD') }}">
+  {%- if product.availability -%}
+    <meta property="product:availability" content="{{ product.availability }}">
+  {%- endif -%}
+  {%- if product.brand -%}
+    <meta property="product:brand" content="{{ product.brand }}">
+  {%- endif -%}
+  {%- if product.condition -%}
+    <meta property="product:condition" content="{{ product.condition | default('new') }}">
+  {%- endif -%}
+{%- endif -%}
+
+{# ═══════════════════════════════════════════════════════════════════════════
+   TWITTER CARD
+   ═══════════════════════════════════════════════════════════════════════════ #}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@easyhtpc">
+<meta name="twitter:creator" content="@easyhtpc">
+<meta name="twitter:title" content="{{ pageTitle }}">
+<meta name="twitter:description" content="{{ pageDescription }}">
+<meta name="twitter:image" content="{{ ogImageUrl }}">
+<meta name="twitter:image:alt" content="{{ imageAlt | default(pageTitle) }}">
+
+{# ═══════════════════════════════════════════════════════════════════════════
+   ADDITIONAL SEO META
+   ═══════════════════════════════════════════════════════════════════════════ #}
+
+{#- Favicon and touch icons - handled by separate partial -#}
+
+{#- Preconnect to external domains for performance -#}
+<link rel="preconnect" href="https://www.amazon.com" crossorigin>
+<link rel="dns-prefetch" href="https://www.amazon.com">
+
+{#- Mobile app handling -#}
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="{{ siteName }}">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+{#- Theme color for browsers -#}
+<meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
+{#- Microsoft tiles -#}
+<meta name="msapplication-TileColor" content="#1a1a2e">
+<meta name="msapplication-config" content="/browserconfig.xml">

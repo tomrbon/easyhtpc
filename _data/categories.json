@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Streaming Devices",
+    "slug": "streaming",
+    "icon": "📺",
+    "description": "NVIDIA Shield, Apple TV, Roku, Fire TV, and more streaming device reviews and guides.",
+    "color": "#f59e0b"
+  },
+  {
+    "name": "Mini PCs",
+    "slug": "mini-pcs",
+    "icon": "💻",
+    "description": "Intel NUC, Beelink, Minisforum and other compact computers perfect for HTPC builds.",
+    "color": "#10b981"
+  },
+  {
+    "name": "NAS & Storage",
+    "slug": "storage",
+    "icon": "💾",
+    "description": "Synology, QNAP, and DIY NAS builds for your media library. Hard drives and SSDs.",
+    "color": "#8b5cf6"
+  },
+  {
+    "name": "Remotes & Input",
+    "slug": "remotes",
+    "icon": "🎮",
+    "description": "Remote controls, keyboards, and input devices for your home theater setup.",
+    "color": "#ec4899"
+  },
+  {
+    "name": "Media Servers",
+    "slug": "media-servers",
+    "icon": "🖥️",
+    "description": "Plex, Jellyfin, Emby, and Kodi setup guides, optimization tips, and comparisons.",
+    "color": "#06b6d4"
+  },
+  {
+    "name": "VPN for Streaming",
+    "slug": "vpn",
+    "icon": "🔒",
+    "description": "VPN reviews, setup guides, and privacy tips for cord-cutters and streamers.",
+    "color": "#22c55e"
+  }
+]

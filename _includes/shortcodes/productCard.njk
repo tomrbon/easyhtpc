@@ -1,0 +1,134 @@
+{#
+  Product Card Component
+  
+  Usage: {% productCard "nvidia-shield-tv-pro" %}
+  
+  Displays a styled product card with:
+  - Product name
+  - Description
+  - Price
+  - Buy button
+#}
+
+{% set product = products[productId] or products.hardware[productId] or products.vpn[productId] or products.software[productId] %}
+{% set affiliateData = affiliates[product.affiliate] %}
+
+{% if affiliateData %}
+  {% if affiliateData.trackingParam == "tag" %}
+    {% set affiliateUrl = affiliateData.baseUrl ~ product.asin ~ "?tag=" ~ affiliateData.tag %}
+  {% elif affiliateData.trackingParam == "ref" %}
+    {% set affiliateUrl = product.landingPage or (affiliateData.baseUrl ~ "?ref=" ~ affiliateData.ref) %}
+  {% else %}
+    {% set affiliateUrl = affiliateData.baseUrl %}
+  {% endif %}
+{% else %}
+  {% set affiliateUrl = product.url or "#" %}
+{% endif %}
+
+<div class="product-card" data-product-id="{{ productId }}">
+  <div class="product-card-header">
+    <span class="product-category">{{ product.category }}</span>
+    <h4 class="product-name">{{ product.name }}</h4>
+  </div>
+  <p class="product-description">{{ product.description }}</p>
+  <div class="product-card-footer">
+    <span class="product-price">{{ product.price }}</span>
+    <a href="{{ affiliateUrl }}" 
+       class="product-buy-button"
+       data-product="{{ product.name }}"
+       data-price="{{ product.price }}"
+       target="_blank"
+       rel="noopener sponsored nofollow">
+      Check Price →
+    </a>
+  </div>
+</div>
+
+<style>
+.product-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1rem 0;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.product-category {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #718096;
+  font-weight: 600;
+}
+
+.product-name {
+  margin: 0.5rem 0 0.75rem;
+  font-size: 1.125rem;
+  color: #1a202c;
+}
+
+.product-description {
+  color: #4a5568;
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+.product-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.product-price {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #2d3748;
+}
+
+.product-buy-button {
+  background: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.product-buy-button:hover {
+  background: #0056b3;
+  color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+  .product-card {
+    background: #1a202c;
+    border-color: #2d3748;
+  }
+  
+  .product-name {
+    color: #f7fafc;
+  }
+  
+  .product-description {
+    color: #a0aec0;
+  }
+  
+  .product-card-footer {
+    border-color: #2d3748;
+  }
+  
+  .product-price {
+    color: #e2e8f0;
+  }
+}
+</style>

@@ -1,0 +1,62 @@
+---
+layout: base.njk
+---
+
+<article class="article-page">
+  <header class="article-header">
+    <div class="article-breadcrumb">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="/articles/">Articles</a>
+      {% if category %}
+      <span class="breadcrumb-sep">/</span>
+      <a href="/categories/{{ category }}/">{{ category | replace("-", " ") | title }}</a>
+      {% endif %}
+    </div>
+    
+    {% if image %}
+    <div class="article-featured-image">
+      <img src="{{ image }}" alt="{{ title }}" loading="lazy">
+    </div>
+    {% endif %}
+    
+    <h1 class="article-title">{{ title }}</h1>
+    
+    {% if description %}
+    <p class="article-subtitle">{{ description }}</p>
+    {% endif %}
+    
+    <div class="article-meta">
+      {% if date %}
+      <span class="article-date">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        {{ date | dateFormat }}
+      </span>
+      {% endif %}
+      {% if category %}
+      <span class="article-category-badge">
+        <a href="/categories/{{ category }}/">{{ category | replace("-", " ") | title }}</a>
+      </span>
+      {% endif %}
+      <span class="article-reading-time">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        {{ content | readTime }} min read
+      </span>
+    </div>
+  </header>
+  
+  <div class="article-body">
+    {{ content | safe }}
+  </div>
+  
+  <footer class="article-footer">
+    {% include "partials/affiliate-disclosure.njk" %}
+    
+    <div class="article-nav">
+      <a href="/articles/" class="article-nav-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        All Articles
+      </a>
+    </div>
+  </footer>
+</article>

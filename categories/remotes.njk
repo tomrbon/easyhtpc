@@ -1,0 +1,40 @@
+---
+layout: base.njk
+title: Remotes
+description: Remote controls and input devices for home theater PCs
+category: remotes
+---
+
+<section class="category-page">
+  <div class="container">
+    <div class="category-page-header">
+      <span class="category-page-icon">🎮</span>
+      <h1 class="category-page-title">Remotes</h1>
+      <p class="category-page-description">The best remote controls and input devices for your HTPC setup.</p>
+    </div>
+    
+    <div class="articles-grid">
+      {% for post in collections.remotes %}
+      <article class="article-card">
+        <div class="article-image">
+          <img src="{{ post.data.image | default('https://source.unsplash.com/FEATURED/800x400/?remote') }}" alt="{{ post.data.title }}" loading="lazy">
+        </div>
+        <div class="article-content">
+          <div class="article-meta">
+            <span class="article-category">remotes</span>
+            <span class="article-date">{{ post.data.date | dateFormat }}</span>
+          </div>
+          <h3 class="article-title">
+            <a href="{{ post.url }}">{{ post.data.title }}</a>
+          </h3>
+          <p class="article-excerpt">{{ post.data.description | default(post.templateContent | excerpt(120)) }}</p>
+          <span class="article-read-more">
+            Read More
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </span>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

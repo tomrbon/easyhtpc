@@ -1,0 +1,264 @@
+/**
+ * Affiliate Link Styles
+ * Centralized styles for all affiliate link components
+ */
+
+/* Base Affiliate Link Style */
+.affiliate-link {
+  color: #0066cc;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.affiliate-link:hover {
+  color: #004499;
+  text-decoration: none;
+}
+
+/* Affiliate link indicator (optional) */
+.affiliate-link::after {
+  content: "↗";
+  font-size: 0.75em;
+  margin-left: 0.25em;
+  opacity: 0.6;
+}
+
+/* Inline Product Link - More prominent */
+.affiliate-link.inline-product {
+  font-weight: 500;
+  color: #007bff;
+  background: linear-gradient(to bottom, transparent 60%, rgba(0, 123, 255, 0.1) 60%);
+  text-decoration: none;
+  padding: 0 0.125rem;
+}
+
+.affiliate-link.inline-product:hover {
+  background: rgba(0, 123, 255, 0.15);
+}
+
+/* CTA Button Styles */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, #ff9500 0%, #ff6b00 100%);
+  color: white !important;
+  text-decoration: none !important;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+}
+
+.cta-button::after {
+  display: none;
+}
+
+.cta-button .cta-icon {
+  font-size: 1.25rem;
+}
+
+.cta-button .cta-text {
+  flex: 1;
+}
+
+.cta-button .cta-price {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Secondary CTA (for VPNs, etc.) */
+.cta-button.secondary {
+  background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+}
+
+.cta-button.secondary:hover {
+  box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
+}
+
+/* Product Card Styles */
+.product-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1rem 0;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.product-card .product-category {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #718096;
+  font-weight: 600;
+}
+
+.product-card .product-name {
+  margin: 0.5rem 0 0.75rem;
+  font-size: 1.125rem;
+  color: #1a202c;
+}
+
+.product-card .product-description {
+  color: #4a5568;
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+.product-card .product-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.product-card .product-price {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #2d3748;
+}
+
+.product-card .product-buy-button {
+  background: #007bff;
+  color: white !important;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.product-card .product-buy-button:hover {
+  background: #0056b3;
+}
+
+/* Affiliate Disclosure Box */
+.affiliate-disclosure {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-left: 4px solid #007bff;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.affiliate-disclosure .disclosure-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.affiliate-disclosure .disclosure-content p {
+  margin: 0;
+  color: #495057;
+}
+
+.affiliate-disclosure .disclosure-link {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.affiliate-disclosure .disclosure-link:hover {
+  color: #0056b3;
+}
+
+/* Product Comparison Table */
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.product-table th,
+.product-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.product-table th {
+  background: #f7fafc;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.product-table tr:hover {
+  background: #f7fafc;
+}
+
+/* Dark Mode Styles */
+@media (prefers-color-scheme: dark) {
+  .affiliate-link {
+    color: #63b3ed;
+  }
+  
+  .affiliate-link:hover {
+    color: #90cdf4;
+  }
+  
+  .affiliate-disclosure {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-left-color: #4299e1;
+  }
+  
+  .affiliate-disclosure .disclosure-content p {
+    color: #e2e8f0;
+  }
+  
+  .affiliate-disclosure .disclosure-link {
+    color: #4299e1;
+  }
+  
+  .product-card {
+    background: #1a202c;
+    border-color: #2d3748;
+  }
+  
+  .product-card .product-name {
+    color: #f7fafc;
+  }
+  
+  .product-card .product-description {
+    color: #a0aec0;
+  }
+  
+  .product-card .product-card-footer {
+    border-color: #2d3748;
+  }
+  
+  .product-card .product-price {
+    color: #e2e8f0;
+  }
+  
+  .product-table th {
+    background: #2d3748;
+  }
+  
+  .product-table tr:hover {
+    background: #2d3748;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "EasyHTPC",
+  "tagline": "Your Guide to Home Theater PCs & Media Centers",
+  "description": "Expert reviews, guides, and tutorials for building your ultimate home media experience. Streaming devices, mini PCs, NAS storage, VPNs, and more.",
+  "url": "https://easyhtpc.com",
+  "author": "EasyHTPC Team",
+  "email": "contact@easyhtpc.com",
+  "social": {
+    "twitter": "easyhtpc",
+    "github": "easyhtpc"
+  },
+  "categories": ["streaming", "mini-pcs", "storage", "remotes", "media-servers", "vpn"],
+  "timezone": "America/New_York"
+}

@@ -1,0 +1,81 @@
+{#
+  CTA Button for Affiliate Links
+  
+  Usage: {% cta "Buy on Amazon", "nvidia-shield-tv-pro", "$199.99" %}
+  
+  Parameters:
+  - label: Button text (e.g., "Buy on Amazon", "Get Deal")
+  - productId: Product ID from products.json (e.g., "nvidia-shield-tv-pro")
+  - price: Price display (optional, from products.json if not provided)
+#}
+
+{% set product = products[productId] or products.hardware[productId] or products.vpn[productId] or products.software[productId] %}
+{% set affiliateData = affiliates[product.affiliate] %}
+
+{% if affiliateData %}
+  {% if affiliateData.trackingParam == "tag" %}
+    {% set affiliateUrl = affiliateData.baseUrl ~ product.asin ~ "?tag=" ~ affiliateData.tag %}
+  {% elif affiliateData.trackingParam == "ref" %}
+    {% set affiliateUrl = product.landingPage or (affiliateData.baseUrl ~ product.ref) %}
+  {% else %}
+    {% set affiliateUrl = affiliateData.baseUrl %}
+  {% endif %}
+{% else %}
+  {% set affiliateUrl = product.url or "#" %}
+{% endif %}
+
+<a href="{{ affiliateUrl }}" 
+   class="affiliate-link cta-button"
+   data-product="{{ product.name | default(productId) }}"
+   data-price="{{ price or product.price }}"
+   target="_blank"
+   rel="noopener sponsored nofollow">
+  <span class="cta-icon">🛒</span>
+  <span class="cta-text">{{ label }}</span>
+  <span class="cta-price">{{ price or product.price }}</span>
+</a>
+
+<style>
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, #ff9500 0%, #ff6b00 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+  color: white;
+}
+
+.cta-icon {
+  font-size: 1.25rem;
+}
+
+.cta-text {
+  flex: 1;
+}
+
+.cta-price {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  background: rgba(0,0,0,0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .cta-button {
+    background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
+  }
+}
+</style>

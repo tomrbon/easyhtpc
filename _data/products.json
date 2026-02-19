@@ -1,0 +1,120 @@
+{
+  "hardware": {
+    "nvidia-shield-tv-pro": {
+      "name": "NVIDIA Shield TV Pro",
+      "asin": "B08NPW7BFD",
+      "affiliate": "amazon",
+      "price": "$199.99",
+      "category": "Streaming Device",
+      "description": "Premium Android TV streaming device with AI upscaling"
+    },
+    "intel-nuc-13-pro": {
+      "name": "Intel NUC 13 Pro",
+      "asin": "B0BTZKZJKC",
+      "affiliate": "amazon",
+      "price": "$549.00",
+      "category": "Mini PC",
+      "description": "Powerful mini PC perfect for HTPC builds"
+    },
+    "beelink-ser7": {
+      "name": "Beelink SER7",
+      "asin": "B0CD3PXMJC",
+      "affiliate": "amazon",
+      "price": "$499.00",
+      "category": "Mini PC",
+      "description": "AMD Ryzen 7 mini PC with excellent media capabilities"
+    },
+    "synology-ds923": {
+      "name": "Synology DS923+",
+      "asin": "B BBR6S2Q7YD",
+      "affiliate": "amazon",
+      "price": "$699.99",
+      "category": "NAS",
+      "description": "4-bay NAS for media storage and Plex servers"
+    },
+    "qnap-ts-464": {
+      "name": "QNAP TS-464",
+      "asin": "B09X7CXKMH",
+      "affiliate": "amazon",
+      "price": "$599.99",
+      "category": "NAS",
+      "description": "4-bay NAS with N5105 quad-core processor"
+    },
+    "samsung-t7-ssd-1tb": {
+      "name": "Samsung T7 SSD 1TB",
+      "asin": "B087BG88KC",
+      "affiliate": "amazon",
+      "price": "$109.99",
+      "category": "Storage",
+      "description": "Portable SSD for fast media transfers"
+    },
+    "samsung-t7-ssd-2tb": {
+      "name": "Samsung T7 SSD 2TB",
+      "asin": "B087BKRK9Q",
+      "affiliate": "amazon",
+      "price": "$179.99",
+      "category": "Storage",
+      "description": "Portable SSD ideal for media libraries"
+    },
+    "wd-red-plus-4tb": {
+      "name": "WD Red Plus 4TB",
+      "asin": "B08VHJFXD7",
+      "affiliate": "amazon",
+      "price": "$89.99",
+      "category": "Storage",
+      "description": "NAS-optimized hard drive for 24/7 operation"
+    },
+    "wd-red-plus-8tb": {
+      "name": "WD Red Plus 8TB",
+      "asin": "B08VHFHJZB",
+      "affiliate": "amazon",
+      "price": "$179.99",
+      "category": "Storage",
+      "description": "High-capacity NAS drive for large media libraries"
+    }
+  },
+  "vpn": {
+    "nordvpn": {
+      "name": "NordVPN",
+      "affiliate": "nordvpn",
+      "price": "$3.19/mo",
+      "category": "VPN",
+      "description": "Fast and secure VPN with streaming optimization",
+      "landingPage": "https://nordvpn.com/easyhtpc"
+    },
+    "expressvpn": {
+      "name": "ExpressVPN",
+      "affiliate": "expressvpn",
+      "price": "$6.67/mo",
+      "category": "VPN",
+      "description": "Premium VPN with excellent streaming support",
+      "landingPage": "https://www.expressvpn.com/easyhtpc"
+    },
+    "surfshark": {
+      "name": "Surfshark",
+      "affiliate": "surfshark",
+      "price": "$2.30/mo",
+      "category": "VPN",
+      "description": "Budget-friendly VPN with unlimited devices",
+      "landingPage": "https://surfshark.com/easyhtpc"
+    }
+  },
+  "software": {
+    "plex-pass": {
+      "name": "Plex Pass",
+      "affiliate": null,
+      "price": "$4.99/mo",
+      "category": "Software",
+      "description": "Premium Plex features including hardware transcoding",
+      "url": "https://www.plex.tv/plex-pass/"
+    },
+    "jellyfin": {
+      "name": "Jellyfin",
+      "affiliate": null,
+      "price": "Free",
+      "category": "Software",
+      "description": "Open-source media server",
+      "url": "https://jellyfin.org/"
+    }
+  }
+}
