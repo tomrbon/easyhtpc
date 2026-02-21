@@ -26,8 +26,8 @@ Let's see if it's still worth your money.
 ## Specs at a Glance
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800&h=400&fit=crop" alt="4K HDR streaming" loading="lazy">
-  <figcaption>4K HDR streaming</figcaption>
+  <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop" alt="Streaming entertainment center" loading="lazy">
+  <figcaption>Streaming entertainment center</figcaption>
 </figure>
 
 
@@ -252,6 +252,57 @@ Then yes, a VPN helps.
 
 ---
 
+## Advanced Use Cases
+
+### Using Shield as a Plex Server
+
+Yes, the Shield Pro can run a Plex Media Server. Here's the reality:
+
+**Pros:**
+- No separate server needed
+- Low power consumption
+- Easy setup through the Plex app
+
+**Cons:**
+- Only 16GB internal storage (you'll need external drives)
+- Limited to 2-3 simultaneous transcodes
+- Database stored on internal storage (slower than SSD on a real server)
+
+**My verdict**: It works for small libraries and 1-2 users. For a serious media server, get a dedicated mini PC instead.
+
+### Game Streaming from Your Gaming PC
+
+If you have a gaming PC with an NVIDIA GPU, you can stream games to your Shield:
+
+1. Enable GameStream on your PC (NVIDIA Control Panel)
+2. Open the NVIDIA Games app on Shield
+3. Your PC appears under "GameStream"
+4. Play any game installed on your PC
+
+**Performance**: Surprisingly good on a good network. 60fps at 1080p with minimal latency on a wired connection.
+
+### Emulation and Retro Gaming
+
+The Shield is excellent for retro gaming emulation:
+
+- **RetroArch**: Available on Play Store, runs everything up to PlayStation 1/N64 flawlessly
+- **Dolphin**: GameCube and Wii emulation works well
+- **PPSSPP**: PSP games run at full speed
+- **RetroArch cores**: Even some PS2 games work (though not all)
+
+**Controller**: Use the NVIDIA Controller or any Bluetooth game controller (Xbox, PlayStation controllers work).
+
+### Smart Home Hub
+
+The Shield can function as a smart home hub using Google Home:
+- Control smart lights, thermostats, cameras
+- Voice commands through the remote
+- Automations through Google Assistant routines
+
+**Works with**: Philips Hue, Nest, SmartThings, and thousands of other devices via Google Home integration.
+
+---
+
 ## Who Should Buy the Shield Pro in 2026?
 
 ### Perfect For:
@@ -318,6 +369,18 @@ It works on all video, but results vary. Live TV and streaming content benefit m
 
 **How long will Shield get updates?**
 NVIDIA hasn't stated an end date. At 6+ years of updates already, expect at least 2-3 more years.
+
+**Can I use Bluetooth headphones with Shield?**
+Yes. Pair Bluetooth headphones directly with the Shield for private listening. Great for late-night viewing without disturbing others.
+
+**Does Shield support Dolby Atmos pass-through?**
+Yes, the Shield Pro fully supports Dolby Atmos and TrueHD passthrough to compatible receivers. This is a key advantage over cheaper streaming devices that only support stereo PCM output.
+
+**Can I expand the storage?**
+Yes, through microSD card (up to 2TB), USB external drives, or network storage (NFS/SMB). The internal 16GB is only for apps and system data.
+
+**Does AI upscaling work on 4K content?**
+No—it only activates for content below 4K. Since the goal is to upscale to 4K, there's nothing to improve on native 4K sources.
 
 ---
 

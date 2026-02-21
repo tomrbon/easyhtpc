@@ -21,8 +21,8 @@ But here's the thing: **you don't have to accept it**.
 ## Understanding Geo-Restrictions
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&h=400&fit=crop" alt="Cord-cutting setup" loading="lazy">
-  <figcaption>Cord-cutting setup</figcaption>
+  <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=400&fit=crop" alt="Global network connectivity" loading="lazy">
+  <figcaption>Global network connectivity</figcaption>
 </figure>
 
 
@@ -114,6 +114,47 @@ After Plex's 2020 plugin purge, most of the more aggressive geo-unblocking plugi
 
 ---
 
+## Advanced VPN Configuration for Plex
+
+### Split Tunneling: Best of Both Worlds
+
+Split tunneling allows you to route only specific apps through your VPN while other traffic uses your normal connection. This is ideal for Plex users because:
+
+- **Plex server traffic** can bypass VPN (maintains local network speeds)
+- **Streaming apps** can route through VPN (unblocks geo-restricted content)
+- **Gaming and browsing** stay on your regular connection (no latency penalty)
+
+**How to set up split tunneling:**
+
+1. **In NordVPN**: Settings → Split Tunneling → Enable → Add apps
+2. **On Windows**: Add your browser and streaming apps to the VPN list
+3. **On Android**: Select which apps use VPN in the app settings
+4. **On NVIDIA Shield**: Not supported natively—use VPN router instead
+
+The result: Your Plex client thinks you're in another country for streaming services, but your local Plex server streams at full speed.
+
+### DNS Configuration Pitfalls
+
+Even with a VPN, DNS leaks can reveal your true location. Here's how to prevent them:
+
+1. **Use your VPN's DNS servers**: Most VPN apps handle this automatically
+2. **Disable WebRTC** in browsers: WebRTC can leak your real IP
+   - Chrome: Install "uBlock Origin" extension
+   - Firefox: Settings → Privacy → Disable WebRTC
+3. **Test for leaks**: Visit dnsleaktest.com while connected to VPN
+
+If you see your ISP's DNS servers in the test results, your VPN isn't properly configured.
+
+### Kill Switch Protection
+
+A kill switch prevents data from leaking if your VPN connection drops. When the VPN tunnel fails (rare, but it happens), the kill switch cuts all internet traffic rather than exposing your real IP.
+
+**Enable it**: Most VPN apps have this in settings. NordVPN calls it "Kill Switch," ExpressVPN calls it "Network Lock."
+
+**Why it matters for streaming**: If you're watching geo-restricted content and your VPN drops, the streaming service might detect your real location and block you—or worse, log the access attempt for future blocking.
+
+---
+
 ## Setting Up VPN with Plex
 
 Let's walk through the actual setup.
@@ -188,6 +229,53 @@ Your streaming experience depends on having good hardware. Here's what I recomme
 
 ---
 
+## Troubleshooting Common VPN Issues
+
+Even the best VPNs have hiccups. Here's how to solve the most common problems:
+
+### Streaming Service Detects VPN
+
+**Symptoms**: Netflix shows "You seem to be using an Unblocker or Proxy" error, or content doesn't change when you switch VPN locations.
+
+**Solutions:**
+1. **Try a different server**: Streaming services block specific IP addresses, not entire VPNs. Switch to another server in the same country.
+2. **Clear cookies and cache**: Your browser might have stored location data from before.
+3. **Use a dedicated streaming IP**: Some VPNs offer IPs specifically optimized for streaming (NordVPN's "Obfuscated Servers," ExpressVPN's streaming-optimized locations).
+4. **Try incognito/private mode**: This bypasses stored cookies and location data.
+5. **Check if your VPN works with your service**: Not all VPNs work with all streaming platforms. NordVPN and ExpressVPN have the best track records.
+
+### Slow Streaming Speeds
+
+**Symptoms**: Buffering, low quality, frequent pauses.
+
+**Solutions:**
+1. **Connect to a closer server**: The farther your data travels, the slower it gets.
+2. **Switch protocols**: WireGuard is faster than OpenVPN. Most modern VPN apps auto-select, but you can manually choose.
+3. **Use UDP instead of TCP**: UDP is faster for streaming (OpenVPN-UDP is faster than OpenVPN-TCP).
+4. **Check your base speed**: A VPN can't make your internet faster than your ISP provides. Test without VPN first.
+5. **Avoid free VPNs**: They have bandwidth limits and overcrowded servers.
+
+### Plex Remote Access Fails with VPN
+
+**Symptoms**: Can't access your Plex server remotely when VPN is active on the server.
+
+**Solutions:**
+1. **Use split tunneling**: Exempt Plex from the VPN tunnel.
+2. **Port forward through your VPN**: Some VPNs allow port forwarding—open port 32400 for Plex.
+3. **Run VPN on client, not server**: Only your streaming device needs VPN, not the server.
+
+### VPN Won't Connect
+
+**Symptoms**: App hangs on "connecting," fails to establish tunnel.
+
+**Solutions:**
+1. **Try different protocol**: Some networks block OpenVPN. Try WireGuard or IKEv2.
+2. **Check firewall settings**: Windows Defender or third-party firewalls might block VPN traffic.
+3. **Restart the app and your device**: The classic IT fix often works.
+4. **Reinstall the VPN app**: Corrupted installations happen.
+
+---
+
 ## The Bottom Line
 
 Geo-blocking is frustrating, but it's solvable. A quality VPN is the most reliable solution, and it doubles as a privacy tool.
@@ -210,6 +298,24 @@ It can, but with a quality VPN the difference is negligible. WireGuard-connected
 
 **Can I use a free VPN for Plex?**
 I don't recommend it. Free VPNs typically have bandwidth limits, slow servers, and—worst of all—some log and sell your data. A quality VPN costs less than a single movie ticket per month.
+
+**Does a VPN affect my local Plex server streaming?**
+No, if configured correctly. Your local network traffic (device to Plex server on same LAN) doesn't go through VPN. Only internet traffic routes through the VPN tunnel.
+
+**Can I use a VPN on my router instead of individual devices?**
+Yes, and this is ideal for covering devices that don't support VPN apps. However, it requires a VPN-compatible router (ASUS, Netgear with custom firmware, or a router flashed with OpenWrt/DD-WRT). All traffic from all devices will go through VPN, which may slow things down.
+
+**What's the difference between VPN and Smart DNS?**
+VPN encrypts all your traffic and routes it through a remote server. Smart DNS only changes your DNS requests to appear from another country—it doesn't encrypt or slow down your connection. VPN is better for privacy; Smart DNS is faster but only works for specific services.
+
+**Will my ISP know I'm using a VPN?**
+They'll see encrypted traffic to a VPN server, but not what you're accessing. Some ISPs throttle VPN traffic, but this is becoming less common as VPN use grows for legitimate business purposes.
+
+**Can I use multiple VPNs?**
+Technically yes, but there's rarely a reason to. It would further slow your connection. Better to choose one quality VPN with many server options.
+
+**How do I know which country's library I'm accessing?**
+Most VPN apps show your current server location. You can also visit whatismyipaddress.com to see where your IP appears to be located. For Netflix specifically, search for titles that are only available in certain regions to confirm your access.
 
 ---
 

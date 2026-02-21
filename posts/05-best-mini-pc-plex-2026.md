@@ -78,6 +78,81 @@ Your network speed determines:
 - How fast you can transfer media to the server
 - Maximum bitrate for remote streaming
 
+---
+
+## Step-by-Step: Setting Up Your Plex Mini PC
+
+Once you've chosen your hardware, here's how to get Plex running:
+
+### 1. Install Your Operating System
+
+**Windows 11 Pro** (Recommended for beginners):
+- Easiest setup with full GUI
+- Automatic updates
+- Remote Desktop access
+- Slightly higher resource usage
+
+**Ubuntu Server** (Recommended for efficiency):
+- Lower resource overhead
+- No GUI means more RAM for Plex
+- Requires command-line comfort
+- Excellent for headless operation
+
+**Proxmox or ESXi** (For advanced users):
+- Run multiple virtual machines
+- Plex server in one VM, other services in others
+- Most flexible but most complex
+
+### 2. Install Plex Media Server
+
+**On Windows**:
+1. Download Plex Media Server from plex.tv
+2. Run the installer
+3. Launch and claim your server at app.plex.tv
+
+**On Linux**:
+1. Add Plex repository
+2. Install via package manager: `sudo apt install plexmediaserver`
+3. Access web interface at `http://[mini-pc-ip]:32400/web`
+
+### 3. Configure Storage
+
+**For internal storage**:
+- NVMe SSD for OS and Plex database
+- Consider a second SSD for frequently accessed media
+
+**For external/network storage**:
+- Mount your NAS shares or external drives
+- Point Plex libraries to these locations
+- Ensure drives mount automatically on boot
+
+### 4. Enable Hardware Transcoding
+
+If you have Plex Pass:
+1. Settings → Transcoder
+2. Check "Use hardware acceleration when available"
+3. Save changes
+
+**Verify it's working**: Play a video that requires transcoding, then check the Plex Dashboard. You should see "HW" next to the transcode indicator.
+
+### 5. Optimize Performance
+
+**Power settings (Windows)**:
+- Set to High Performance mode
+- Disable sleep/hibernate
+- Disable USB selective suspend
+
+**Network settings**:
+- Use Ethernet, not WiFi, for the server
+- Set static IP address
+- Enable port forwarding on your router (port 32400) for remote access
+
+**Plex settings**:
+- Set transcoder temporary directory to your SSD (not a spinning hard drive)
+- Adjust simultaneous transcode limit based on your hardware
+
+---
+
 ## Mini PC Reviews
 
 ### Intel NUC 13 Pro - Best Overall

@@ -27,8 +27,8 @@ Let's find the right one for you.
 ## Quick Top Picks
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=800&h=400&fit=crop" alt="Server rack storage" loading="lazy">
-  <figcaption>Server rack storage</figcaption>
+  <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=800&h=400&fit=crop" alt="Data center storage" loading="lazy">
+  <figcaption>Data center storage</figcaption>
 </figure>
 
 
