@@ -27,7 +27,7 @@ Let's break it down sport by sport, then get into the solutions.
 ## NFL: Football Without Cable
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1461896836934-94201012f2a4?w=800&h=400&fit=crop" alt="Sports on TV" loading="lazy">
+  <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=400&fit=crop" alt="Sports on TV" loading="lazy">
   <figcaption>Sports on TV</figcaption>
 </figure>
 

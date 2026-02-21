@@ -27,7 +27,7 @@ Let's find the right one for you.
 ## Quick Top Picks
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=800&h=400&fit=crop" alt="Data center storage" loading="lazy">
+  <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&h=400&fit=crop" alt="Data center storage" loading="lazy">
   <figcaption>Data center storage</figcaption>
 </figure>
 

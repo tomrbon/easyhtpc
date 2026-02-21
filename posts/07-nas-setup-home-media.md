@@ -24,7 +24,7 @@ Think of it as the difference between keeping your books in a pile on your floor
 ## NAS vs External Drive vs Cloud: The Real Comparison
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop" alt="Home server setup" loading="lazy">
+  <img src="https://images.unsplash.com/photo-1506399558188-acca6f8cbf41?w=800&h=400&fit=crop" alt="Home server setup" loading="lazy">
   <figcaption>Home server setup</figcaption>
 </figure>
 

@@ -26,7 +26,7 @@ Let's see if it's still worth your money.
 ## Specs at a Glance
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop" alt="Streaming entertainment center" loading="lazy">
+  <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=400&fit=crop" alt="Streaming entertainment center" loading="lazy">
   <figcaption>Streaming entertainment center</figcaption>
 </figure>
 

@@ -55,7 +55,7 @@ VPN encryption blocks all of this.
 ## Best VPNs for Kodi in 2026
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1563986768606-0571b5e11c18?w=800&h=400&fit=crop" alt="Kodi media center" loading="lazy">
+  <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=800&h=400&fit=crop" alt="Kodi media center" loading="lazy">
   <figcaption>Kodi media center</figcaption>
 </figure>
 
