@@ -4,7 +4,7 @@ description: "The ultimate storage solution for your media library—tested and 
 date: 2026-02-18
 categories: ["storage"]
 category: "storage"
-image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=400&fit=crop"
 tags: ["storage", "streaming", "htpc"]
 layout: article.njk
 ---

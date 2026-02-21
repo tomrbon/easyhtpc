@@ -4,7 +4,7 @@ description: "Still the king of streaming boxes—here's why after all these yea
 date: 2026-02-17
 categories: ["streaming"]
 category: "streaming"
-image: "https://images.unsplash.com/photo-1593907179275-5c4c585ae0b4?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=400&fit=crop"
 tags: ["streaming", "streaming", "htpc"]
 layout: article.njk
 ---

@@ -4,7 +4,7 @@ description: "Never miss a game again—streaming services, antennas, and workar
 date: 2026-02-18
 categories: ["streaming"]
 category: "streaming"
-image: "https://images.unsplash.com/photo-1471897488648-2d7a1e3c1d5f?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=400&fit=crop"
 tags: ["streaming", "streaming", "htpc"]
 layout: article.njk
 ---
