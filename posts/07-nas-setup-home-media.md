@@ -1,7 +1,7 @@
 ---
 title: "Complete NAS Setup Guide for Home Media"
 description: "Build your own Netflix with a NAS—hardware selection, software setup, and optimization tips"
-date: 2026-02-17
+date: 2026-01-26
 categories: ["storage"]
 category: "storage"
 image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop"

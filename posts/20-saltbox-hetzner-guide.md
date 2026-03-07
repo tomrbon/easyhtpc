@@ -1,7 +1,7 @@
 ---
 title: "SaltBox Guide: Cloud Media Server on Hetzner VPS"
 description: "Deploy a fully-featured cloud media server on Hetzner VPS with SaltBox. Complete setup guide for streaming your media library from anywhere in the world."
-date: 2026-02-21
+date: 2026-03-07
 categories: ["media-servers"]
 category: "media-servers"
 image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=400&fit=crop"

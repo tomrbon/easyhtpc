@@ -1,7 +1,7 @@
 ---
 title: "CasaOS Setup Guide: Docker Made Easy for Home Media"
 description: "Transform any Linux PC into a powerful home media server with CasaOS. Step-by-step Docker container setup for Plex, Jellyfin, and more—no command line expertise required."
-date: 2026-02-21
+date: 2026-03-02
 categories: ["media-servers"]
 category: "media-servers"
 image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop"

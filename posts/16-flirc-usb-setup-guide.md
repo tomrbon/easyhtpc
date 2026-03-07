@@ -1,7 +1,7 @@
 ---
 title: "FLIRC USB Setup Guide: Program Any IR Remote for Your HTPC"
 description: "Complete step-by-step guide to setting up FLIRC USB receiver. Learn to program any infrared remote to control your HTPC with custom button mappings."
-date: 2026-02-21
+date: 2026-02-26
 categories: ["remotes"]
 category: "remotes"
 image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&h=400&fit=crop"

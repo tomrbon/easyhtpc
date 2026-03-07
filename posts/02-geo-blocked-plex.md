@@ -1,7 +1,7 @@
 ---
 title: "How to Access Geo-Blocked Content on Plex"
 description: "Unlock international streaming libraries and bypass regional restrictions on your media server"
-date: 2026-02-16
+date: 2026-01-06
 categories: ["media-servers"]
 category: "media-servers"
 image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&h=400&fit=crop"

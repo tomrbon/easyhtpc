@@ -1,7 +1,7 @@
 ---
 title: "VPN for Kodi: Complete Setup Guide"
 description: "Protect your Kodi streaming with the right VPN—setup guides, best practices, and pitfalls to avoid"
-date: 2026-02-18
+date: 2026-02-03
 categories: ["vpn"]
 category: "vpn"
 image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=400&fit=crop"

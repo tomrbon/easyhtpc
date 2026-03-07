@@ -1,7 +1,7 @@
 ---
 title: "Complete Cord-Cutting Guide 2026"
 description: "Ditch cable for good with our comprehensive guide to streaming, antennas, and media centers"
-date: 2026-02-17
+date: 2026-01-14
 categories: ["streaming"]
 category: "streaming"
 image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&h=400&fit=crop"

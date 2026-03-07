@@ -1,7 +1,7 @@
 ---
 title: "Best Wireless Keyboards for Home Theater PCs 2026"
 description: "Find the perfect wireless keyboard for your HTPC setup. Compare full-size and compact options with backlit keys, touchpads, and long battery life."
-date: 2026-02-21
+date: 2026-02-28
 categories: ["remotes"]
 category: "remotes"
 image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=800&h=400&fit=crop"

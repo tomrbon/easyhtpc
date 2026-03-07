@@ -1,7 +1,7 @@
 ---
 title: "Best Mini PCs for Kodi in 2026"
 description: "Top mini PCs optimized for Kodi with 4K HDR playback, audio passthrough, and remote control support at every budget"
-date: 2026-02-21
+date: 2026-02-15
 categories: ["mini-pcs"]
 category: "mini-pcs"
 image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=800&h=400&fit=crop"

@@ -1,7 +1,7 @@
 ---
 title: "Jellyfin vs Plex vs Emby: The Ultimate 2026 Comparison"
 description: "Which media server is right for you? We break down features, performance, and pricing"
-date: 2026-02-16
+date: 2026-01-10
 categories: ["media-servers"]
 category: "media-servers"
 image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&h=400&fit=crop"

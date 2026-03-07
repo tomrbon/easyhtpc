@@ -1,7 +1,7 @@
 ---
 title: "Best NAS for Plex 2026"
 description: "The ultimate storage solution for your media library—tested and ranked"
-date: 2026-02-18
+date: 2026-02-07
 categories: ["storage"]
 category: "storage"
 image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=400&fit=crop"

@@ -1,7 +1,7 @@
 ---
 title: "NVIDIA Shield TV Pro Review 2026"
 description: "Still the king of streaming boxes—here's why after all these years"
-date: 2026-02-17
+date: 2026-01-22
 categories: ["streaming"]
 category: "streaming"
 image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=400&fit=crop"

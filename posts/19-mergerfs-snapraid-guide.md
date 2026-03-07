@@ -1,7 +1,7 @@
 ---
 title: "Mergerfs + SnapRAID: The Budget RAID Alternative"
 description: "Combine multiple drives into one massive storage pool with data protection—without the cost and complexity of hardware RAID. Perfect for home media servers."
-date: 2026-02-21
+date: 2026-03-05
 categories: ["media-servers"]
 category: "media-servers"
 image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=400&fit=crop"

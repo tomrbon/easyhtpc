@@ -1,7 +1,7 @@
 ---
 title: "Best Air Mouse Remotes for Mini PCs 2026: Complete Buyer's Guide"
 description: "Find the perfect air mouse remote for your mini PC HTPC. Compare backlit keyboards, voice control features, and gyroscopic control options."
-date: 2026-02-21
+date: 2026-02-24
 categories: ["remotes"]
 category: "remotes"
 image: "https://images.unsplash.com/photo-1625961332771-3f40b0e2bdcf?w=800&h=400&fit=crop"

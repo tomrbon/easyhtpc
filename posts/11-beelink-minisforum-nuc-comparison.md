@@ -1,7 +1,7 @@
 ---
 title: "Beelink vs Minisforum vs Intel NUC: Mini PC Showdown 2026"
 description: "Which mini PC brand offers the best value, performance, and reliability for your HTPC build? We compare the top contenders side-by-side."
-date: 2026-02-21
+date: 2026-02-11
 categories: ["mini-pcs"]
 category: "mini-pcs"
 image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&h=400&fit=crop"

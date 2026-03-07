@@ -1,7 +1,7 @@
 ---
 title: "Building a Budget HTPC with Mini PCs Under $300"
 description: "Complete guide to building a powerful HTPC on a budget with mini PC recommendations, setup steps, and cost breakdowns"
-date: 2026-02-21
+date: 2026-02-18
 categories: ["mini-pcs"]
 category: "mini-pcs"
 image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop"

@@ -1,7 +1,7 @@
 ---
 title: "How to Watch Sports Without Cable in 2026"
 description: "Never miss a game again—streaming services, antennas, and workarounds for every sport"
-date: 2026-02-18
+date: 2026-01-30
 categories: ["streaming"]
 category: "streaming"
 image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=400&fit=crop"

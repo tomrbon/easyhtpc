@@ -1,7 +1,7 @@
 ---
 title: "Best Mini PC for Plex Server 2026"
 description: "Compact, powerful, and quiet—the best mini PCs to run your media empire"
-date: 2026-02-17
+date: 2026-01-18
 categories: ["mini-pcs"]
 category: "mini-pcs"
 image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&h=400&fit=crop"
