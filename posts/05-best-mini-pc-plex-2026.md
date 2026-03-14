@@ -429,45 +429,9 @@ Most mini PCs allow RAM and SSD upgrades. CPU and GPU are soldered. Check specs 
 ---
 
 *Small server, big library. That's the mini PC advantage.*
----
 
-## Mini PC Comparison for Plex Servers
-
-| Model | CPU | RAM | Storage | Transcodes | Price |
-|-------|-----|-----|---------|------------|-------|
-| **Intel NUC 13 Pro** | i5-1340P | 16GB | 512GB | 4-5 streams | $549 |
-| **Intel NUC 12 Enthusiast** | i7-1260P | 32GB | 1TB | 6-8 streams | $699 |
-| **Minisforum HX99G** | Ryzen 9 5900HX | 32GB | 512GB | 8-10 streams | $649 |
-| **Beelink SER5 Pro** | Ryzen 7 5800H | 32GB | 500GB | 5-6 streams | $399 |
-| **ZOTAC ZBOX CI660** | i5-1135G7 | 16GB | 256GB | 3-4 streams | $399 |
-
----
-
-## Our Top Picks
-
-Ready to build your Plex server? Here are our recommendations:
-
-| Use Case | Mini PC | Why |
-|----------|---------|-----|
-| **Best Overall** | Intel NUC 13 Pro | Perfect balance of power, efficiency, transcoding |
-| **Best Value** | Beelink EQ12 | Cheapest Intel QuickSync option |
-| **Power User** | GEEKOM IT13 | Maximum performance for multiple services |
-| **Budget Transcoder** | Intel NUC 12 Enthusiast | Good transcoding at lower price |
-| **Direct Play Only** | Beelink SER5 Pro | Great CPU, no transcoding needed |
-
----
-
-<div class="affiliate-box">
-<h3>🔗 Shop Mini PCs for Plex</h3>
-<p>All the mini PCs in this guide are available on Amazon. Compare prices and find the best fit for your setup:</p>
-<ul>
-<li><a href="https://www.amazon.com" rel="nofollow sponsored noopener">Intel NUC 13 Pro on Amazon</a></li>
-<li><a href="https://www.amazon.com" rel="nofollow sponsored noopener">GEEKOM IT13 on Amazon</a></li>
-<li><a href="https://www.amazon.com" rel="nofollow sponsored noopener">Beelink SER5 Pro on Amazon</a></li>
-<li><a href="https://www.amazon.com" rel="nofollow sponsored noopener">Beelink EQ12 on Amazon</a></li>
-</ul>
-</div>
-
----
-
-*Small server, big library. That's the mini PC advantage.*
+**Related Reading:**
+- [Best NAS for Plex Server 2026](/mini-pcs/best-nas-for-plex-2026/)
+- [CasaOS Setup Guide](/mini-pcs/casaos-setup-guide/)
+- [Best HTPC Remotes 2026](/mini-pcs/best-htpc-remotes-2026/)
+- [Best VPN for Streaming](/vpn/best-vpn-streaming-2026/)
