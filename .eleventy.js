@@ -132,10 +132,11 @@ module.exports = function(eleventyConfig) {
   // ═══════════════════════════════════════════════════════════════════════════
   
   eleventyConfig.addFilter('relatedArticles', function(article, allArticles, limit = 3) {
-    if (!article || !allArticles) return [];
+    if (!article || !allArticles || !article.data) return [];
     
     const scored = allArticles
       .filter(a => a.url !== article.url) // Exclude current article
+      .filter(a => a.data && a.data.category) // Only include articles with category
       .map(a => {
         let score = 0;
         
