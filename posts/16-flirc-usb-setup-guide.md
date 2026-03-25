@@ -4,7 +4,7 @@ description: "Complete step-by-step guide to setting up FLIRC USB receiver. Lear
 date: 2026-02-26
 categories: ["remotes"]
 category: "remotes"
-image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1592462971319-58f28dc4b3e4?w=800&h=400&fit=crop"
 tags: ["remotes", "htpc", "input"]
 layout: article.njk
 ---

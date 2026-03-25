@@ -4,7 +4,7 @@ description: "Which mini PC brand offers the best value, performance, and reliab
 date: 2026-02-11
 categories: ["mini-pcs"]
 category: "mini-pcs"
-image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1592899677977-9c1086c6ad6e?w=800&h=400&fit=crop"
 tags: ["mini-pcs", "htpc", "hardware"]
 layout: article.njk
 ---
