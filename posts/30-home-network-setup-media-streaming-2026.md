@@ -4,7 +4,7 @@ description: "Your streaming quality is only as good as your home network. This 
 date: 2025-11-28
 categories: ["media-servers"]
 category: "media-servers"
-image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1551703599-6b3e8379aa8c?w=800&h=400&fit=crop"
 tags: ["media-servers", "networking", "home-network", "guide", "ethernet"]
 layout: article.njk
 ---

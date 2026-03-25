@@ -4,7 +4,7 @@ description: "The great streaming device debate in 2026. We compare Roku, Amazon
 date: 2026-01-10
 categories: ["streaming"]
 category: "streaming"
-image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1574375820429-55fa78fa23bc?w=800&h=400&fit=crop"
 tags: ["streaming", "roku", "fire-tv", "chromecast", "streaming-device"]
 layout: article.njk
 ---

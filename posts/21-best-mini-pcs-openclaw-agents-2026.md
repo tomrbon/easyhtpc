@@ -4,7 +4,7 @@ description: "Build your AI agent workstation with these silent, efficient mini 
 date: 2026-03-16
 categories: ["mini-pcs"]
 category: "mini-pcs"
-image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1591405351990-4726e331f141?w=800&h=400&fit=crop"
 tags: ["mini-pc", "openclaw", "ai-agent", "home-server", "htpc"]
 layout: article.njk
 ---

@@ -4,7 +4,7 @@ description: "Do expensive HDMI cables actually make a difference? We test and c
 date: 2026-01-05
 categories: ["remotes"]
 category: "remotes"
-image: "https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1563770095-39d468f9851d?w=800&h=400&fit=crop"
 tags: ["remotes", "hdmi", "cables", "accessories", "4k"]
 layout: article.njk
 ---

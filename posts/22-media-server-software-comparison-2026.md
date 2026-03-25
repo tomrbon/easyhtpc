@@ -4,7 +4,7 @@ description: "Compare the best media server software options for 2026. We break 
 date: 2025-11-03
 categories: ["media-servers"]
 category: "media-servers"
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1558002038-1091a1661116?w=800&h=400&fit=crop"
 tags: ["media-servers", "plex", "jellyfin", "emby", "comparison"]
 layout: article.njk
 ---

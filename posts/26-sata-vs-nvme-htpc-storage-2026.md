@@ -4,7 +4,7 @@ description: "Does NVMe actually matter for an HTPC? We cut through the marketin
 date: 2025-10-28
 categories: ["storage"]
 category: "storage"
-image: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1558788353-f76d92427f16?w=800&h=400&fit=crop"
 tags: ["storage", "nvme", "sata", "htpc", "ssd"]
 layout: article.njk
 ---

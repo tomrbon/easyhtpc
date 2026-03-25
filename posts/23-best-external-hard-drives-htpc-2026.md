@@ -4,7 +4,7 @@ description: "Expand your HTPC storage without breaking the bank. These are the 
 date: 2025-10-20
 categories: ["storage"]
 category: "storage"
-image: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&h=400&fit=crop"
 tags: ["storage", "hard-drives", "htpc", "external-storage"]
 layout: article.njk
 ---
