@@ -81,7 +81,7 @@ A Virtual Private Network (VPN) creates an encrypted tunnel between your device 
     <div class="affiliate-box-title">NordVPN</div>
     <div class="affiliate-box-description">Best VPN for Plex streaming</div>
   </div>
-  <a href="https://www.nordvpn.com" target="_blank" rel="nofollow sponsored noopener" class="affiliate-box-link">
+  <a href="{{ affiliates.nordvpn.affiliateUrl }}" target="_blank" rel="nofollow sponsored noopener" class="affiliate-box-link">
     Get NordVPN
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
   </a>
@@ -181,16 +181,7 @@ This is the simplest approach and works well for most users.
 2. Connect to a server
 3. Use Plex normally
 
-<div class="affiliate-box">
-  <div class="affiliate-box-content">
-    <div class="affiliate-box-title">NVIDIA Shield TV Pro</div>
-    <div class="affiliate-box-description">Best streaming device for VPN use</div>
-  </div>
-  <a href="https://www.amazon.com" target="_blank" rel="nofollow sponsored noopener" class="affiliate-box-link">
-    View on Amazon
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-  </a>
-</div>
+**Recommended hardware:** NVIDIA Shield TV Pro — native Google TV platform with full VPN app support and the best Kodi/Plex client available.
 
 ### Option B: VPN on Your Router
 
@@ -214,18 +205,7 @@ Your streaming experience depends on having good hardware. Here's what I recomme
 
 ### For Plex Clients (Viewing)
 
-**Winner**: NVIDIA Shield Pro. Native VPN support, best Plex client, excellent upscaling.
-
-<div class="affiliate-box">
-  <div class="affiliate-box-content">
-    <div class="affiliate-box-title">NVIDIA Shield TV Pro</div>
-    <div class="affiliate-box-description">Best Plex client with VPN support</div>
-  </div>
-  <a href="https://www.amazon.com" target="_blank" rel="nofollow sponsored noopener" class="affiliate-box-link">
-    View on Amazon
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-  </a>
-</div>
+**Winner**: NVIDIA Shield TV Pro — native VPN app support via Google Play, best Plex client, excellent upscaling. The Shield Pro is the definitive HTPC streaming device.
 
 ---
 
@@ -344,4 +324,4 @@ Most VPN apps show your current server location. You can also visit whatismyipad
 | ExpressVPN | ⭐⭐⭐⭐⭐ | 8 | $8.32/mo |
 | Surfshark | ⭐⭐⭐⭐ | Unlimited | $2.49/mo |
 
-<a href="#" rel="nofollow sponsored" class="affiliate-btn">Compare VPN Prices →</a>
+<a href="/vpn/best-vpn-streaming-2026/" class="affiliate-btn">Compare VPN options →</a>

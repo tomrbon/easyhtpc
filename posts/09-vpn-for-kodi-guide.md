@@ -80,7 +80,16 @@ Here are the ones that actually work.
 
 **Price**: $3.99/month (2-year plan)
 
-NordVPN
+<div class="affiliate-box">
+  <div class="affiliate-box-content">
+    <div class="affiliate-box-title">NordVPN</div>
+    <div class="affiliate-box-description">Best overall for Kodi — fast WireGuard, P2P-optimized servers</div>
+  </div>
+  <a href="{{ affiliates.nordvpn.affiliateUrl }}" target="_blank" rel="nofollow sponsored noopener" class="affiliate-box-link">
+    Get NordVPN
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+  </a>
+</div>
 
 ### ExpressVPN - Most Reliable
 
@@ -97,7 +106,16 @@ NordVPN
 
 **Price**: $6.67/month (annual plan)
 
-ExpressVPN
+<div class="affiliate-box">
+  <div class="affiliate-box-content">
+    <div class="affiliate-box-title">ExpressVPN</div>
+    <div class="affiliate-box-description">Most reliable — Lightway protocol, router support, 24/7 live chat</div>
+  </div>
+  <a href="{{ affiliates.expressvpn.affiliateUrl }}" target="_blank" rel="nofollow sponsored noopener" class="affiliate-box-link">
+    Get ExpressVPN
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+  </a>
+</div>
 
 ### Surfshark - Best Value
 
@@ -113,7 +131,16 @@ ExpressVPN
 
 **Price**: $2.49/month (2-year plan)
 
-Surfshark
+<div class="affiliate-box">
+  <div class="affiliate-box-content">
+    <div class="affiliate-box-title">Surfshark</div>
+    <div class="affiliate-box-description">Best value — unlimited devices for one price</div>
+  </div>
+  <a href="{{ affiliates.surfshark.affiliateUrl }}" target="_blank" rel="nofollow sponsored noopener" class="affiliate-box-link">
+    Get Surfshark
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+  </a>
+</div>
 
 ### Comparison Table
 
@@ -156,9 +183,9 @@ Install the VPN app directly on the device running Kodi.
 - Easy to switch server locations
 
 **Best devices for this setup:**
-- NVIDIA Shield TV Pro NVIDIA Shield Pro - Built-in VPN app support, best Kodi performance
-- Amazon Fire TV Stick 4K Max Fire TV Stick 4K Max - VPN apps available, affordable
-- Windows mini PC Intel NUC - Full desktop VPN apps
+- **NVIDIA Shield TV Pro** — Built-in VPN app support, best Kodi performance
+- **Amazon Fire TV Stick 4K Max** — VPN apps available, affordable
+- **Windows mini PC** (Intel NUC, Beelink, etc.) — Full desktop VPN apps
 
 ### Method 2: VPN on Your Router
 
@@ -176,8 +203,8 @@ Install VPN configuration directly on your router, protecting every device on yo
 4. Connect and verify
 
 **Best VPN routers:**
-- Asus RT-AX86U Asus RT-AX86U - Built-in VPN client, excellent performance
-- GL.iNet Slate/Flint GL.iNet Flint - Pre-configured for multiple VPN providers
+- **Asus RT-AX86U** — Built-in VPN client, excellent performance
+- **GL.iNet Flint** — Pre-configured for multiple VPN providers
 
 **Tradeoffs:**
 - All traffic goes through VPN (can slow other things)
@@ -227,8 +254,6 @@ The Shield is arguably the best device for Kodi + VPN combo.
    - Install add-ons from repository
    - Configure for your VPN server region if using geo-locked add-ons
 
-NVIDIA Shield TV Pro
-
 ### On Amazon Fire TV
 
 Fire devices require sideloading Kodi, but VPN apps are officially available.
@@ -250,8 +275,6 @@ Fire devices require sideloading Kodi, but VPN apps are officially available.
 4. **Launch Kodi with VPN**
    - Connect VPN first
    - Then open Kodi
-
-Fire TV Stick 4K Max
 
 ### On Windows PC
 
@@ -442,42 +465,14 @@ For general privacy, any server works. For geo-restricted content, choose a serv
 ---
 
 *Stay private, stream freely, and protect yourself with a quality VPN.*
----
-
-## VPN Setup for Kodi
----
-
-## VPN Comparison for Kodi Users
-
-| VPN | Kodi Addon | Speed | P2P Optimized | Price |
-|-----|------------|-------|---------------|-------|
-| NordVPN | ✅ Yes | ⭐⭐⭐⭐⭐ | ✅ Yes | $3.99/mo |
-| ExpressVPN | ✅ Yes | ⭐⭐⭐⭐⭐ | ✅ Yes | $8.32/mo |
-| Surfshark | ✅ Yes | ⭐⭐⭐⭐ | ✅ Yes | $2.49/mo |
-| IPVanish | ✅ Yes | ⭐⭐⭐⭐ | ✅ Yes | $3.33/mo |
-| CyberGhost | ✅ Yes | ⭐⭐⭐⭐ | ✅ Yes | $2.19/mo |
-
----
-
-## Our VPN Recommendations for Kodi
-
-| VPN | Speed | Kodi Addon | P2P/NZB | Price | Best For |
-|-----|-------|------------|---------|-------|----------|
-| **NordVPN** | ⭐⭐⭐⭐⭐ | ✅ Yes | ✅ Yes | $3.99/mo | Best overall |
-| **Surfshark** | ⭐⭐⭐⭐ | ✅ Yes | ✅ Yes | $2.49/mo | Best value |
-| **ExpressVPN** | ⭐⭐⭐⭐⭐ | ✅ Yes | ✅ Yes | $8.32/mo | Best for streaming |
-| **IPVanish** | ⭐⭐⭐⭐ | ✅ Yes | ✅ Yes | $3.33/mo | Has native Kodi app |
-
----
 
 <div class="affiliate-box">
-<h3>🔒 Protect Your Kodi Streaming</h3>
-<p>Top VPNs with Kodi support and P2P-optimized servers:</p>
-<ul>
-<li><a href="https://www.nordvpn.com" rel="nofollow sponsored noopener">NordVPN - 72% off 2-year plan</a></li>
-<li><a href="https://www.surfshark.com" rel="nofollow sponsored noopener">Surfshark - Best value VPN</a></li>
-<li><a href="https://www.expressvpn.com" rel="nofollow sponsored noopener">ExpressVPN - Fastest for streaming</a></li>
-</ul>
+  <div class="affiliate-box-content">
+    <div class="affiliate-box-title">Our Top Pick: NordVPN</div>
+    <div class="affiliate-box-description">Best balance of speed, Kodi compatibility, and price — WireGuard protocol, P2P servers, kill switch</div>
+  </div>
+  <a href="{{ affiliates.nordvpn.affiliateUrl }}" target="_blank" rel="nofollow sponsored noopener" class="affiliate-box-link">
+    Get NordVPN
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+  </a>
 </div>
-
----

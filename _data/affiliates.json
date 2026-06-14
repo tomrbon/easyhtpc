@@ -5,18 +5,18 @@
     "trackingParam": "tag"
   },
   "nordvpn": {
-    "ref": "easyhtpc",
-    "baseUrl": "https://nordvpn.com/",
-    "trackingParam": "ref"
+    "name": "NordVPN",
+    "affiliateUrl": "https://nordvpn.com/?ref=easyhtpc",
+    "signupUrl": "https://affiliate.nordvpn.com/"
   },
   "expressvpn": {
-    "ref": "easyhtpc",
-    "baseUrl": "https://www.expressvpn.com/",
-    "trackingParam": "ref"
+    "name": "ExpressVPN",
+    "affiliateUrl": "https://www.expressvpn.com/?ref=easyhtpc",
+    "signupUrl": "https://www.expressvpn.com/vpn-affiliate"
   },
   "surfshark": {
-    "ref": "easyhtpc",
-    "baseUrl": "https://surfshark.com/",
-    "trackingParam": "ref"
+    "name": "Surfshark",
+    "affiliateUrl": "https://surfshark.com/?ref=easyhtpc",
+    "signupUrl": "https://surfshark.com/partners"
   }
 }
