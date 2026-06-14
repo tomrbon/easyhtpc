@@ -301,7 +301,7 @@ A NAS is only as good as its drives. Don't cheap out here.
 
 ### Best Options for Media Storage
 
-| Drive | Capacity | NAS-Optimized? | Price | [AFFILIATE] |
+| Drive | Capacity | NAS-Optimized? | Price | |
 |-------|----------|----------------|-------|-------------|
 | WD Red Plus | 8TB | Yes, CMR | ~$180 | WD Red Plus 8TB |
 | WD Red Pro | 8TB | Yes, CMR | ~$250 | WD Red Pro 8TB |
@@ -379,18 +379,18 @@ For some users, a separate server plus storage makes more sense.
 For most Plex users, here's my recommendation:
 
 **Budget setup:**
-- Synology DS224+ (~$300) [AFFILIATE]
-- 2x WD Red Plus 8TB (~$360) [AFFILIATE]
+- Synology DS224+ (~$300)
+- 2x WD Red Plus 8TB (~$360)
 - Total: ~$660
 
 **Sweet spot:**
-- QNAP TS-464 (~$450) [AFFILIATE]
-- 4x Seagate IronWolf 8TB (~$800) [AFFILIATE]
+- QNAP TS-464 (~$450)
+- 4x Seagate IronWolf 8TB (~$800)
 - Total: ~$1,250 with room to grow
 
 **Power user:**
-- QNAP TVS-674 (~$1,200) [AFFILIATE]
-- 6x Seagate Exos 16TB (~$1,300) [AFFILIATE]
+- QNAP TVS-674 (~$1,200)
+- 6x Seagate Exos 16TB (~$1,300)
 - Total: ~$2,500 for ~80TB usable storage
 
 ---

@@ -356,7 +356,7 @@ Best of both worlds:
 - Mini PC handles transcoding
 - Connected via network
 
-**Recommended**: Synology DS224+ [AFFILIATE] for storage, Intel NUC for server.
+**Recommended**: Synology DS224+ for storage, Intel NUC for server.
 
 ---
 
@@ -392,16 +392,16 @@ Or run VPN server on your mini PC for secure remote access.
 For most Plex users in 2026:
 
 **Recommended setup:**
-- **Intel NUC 13 Pro** (~$450) [AFFILIATE]
-- **32GB RAM kit** (~$60) [AFFILIATE]
-- **1TB NVMe SSD** (~$80) [AFFILIATE]
-- **Synology DS224+ NAS** (~$300) for storage [AFFILIATE]
+- **Intel NUC 13 Pro** (~$450)
+- **32GB RAM kit** (~$60)
+- **1TB NVMe SSD** (~$80)
+- **Synology DS224+ NAS** (~$300) for storage
 
 **Total**: ~$890 for a server that handles anything you throw at it.
 
 **Budget setup:**
-- **Beelink EQ12** (~$170) [AFFILIATE]
-- **2x External 8TB drives** (~$320) [AFFILIATE]
+- **Beelink EQ12** (~$170)
+- **2x External 8TB drives** (~$320)
 
 **Total**: ~$490 for basic server needs.
 

@@ -9,8 +9,6 @@ tags: ["mini-pc", "openclaw", "ai-agent", "home-server", "htpc"]
 layout: article.njk
 ---
 
-**Affiliate Disclosure:** This post contains affiliate links. If you purchase through these links, we may earn a commission at no extra cost to you. We only recommend products we've researched and believe will work well for OpenClaw deployments.
-
 ---
 
 ## Why Mini PCs Are Perfect for OpenClaw Agents
@@ -106,7 +104,6 @@ We've researched, compared, and tested these picks for OpenClaw deployments. Her
 **OpenClaw Fit:** ⭐⭐⭐⭐⭐
 The Mac mini M4 is the gold standard for OpenClaw nodes. It's silent, efficient, and powerful enough for multi-session agent orchestration. If you're running local LLMs via Ollama, the M4's Neural Engine helps. Get 24GB+ RAM if you plan to run multiple concurrent agents or larger models.
 
-**[→ Buy on Amazon (affiliate link)](https://amzn.to/mac-mini-m4)** | **[→ Buy on B&H Photo (affiliate link)](https://bhphoto.video/mac-mini-m4)** | **[→ Apple Store](https://apple.com/shop/buy-mac/mac-mini)**
 
 ---
 
@@ -140,7 +137,6 @@ The Mac mini M4 is the gold standard for OpenClaw nodes. It's silent, efficient,
 **OpenClaw Fit:** ⭐⭐⭐⭐
 The NUC 16 Pro is the Windows alternative to Mac mini. It's powerful, expandable on storage, and handles OpenClaw + browser automation well. If your agent workflows depend on Windows (PowerShell, .NET tools, certain browser plugins), this is your pick. Get the 32GB RAM config for multi-session workloads.
 
-**[→ Buy on Amazon (affiliate link)](https://amzn.to/asus-nuc-16-pro)** | **[→ Buy on Newegg (affiliate link)](https://newegg.com/asus-nuc-16-pro)** | **[→ B&H Photo (affiliate link)](https://bhphoto.video/asus-nuc-16-pro)**
 
 ---
 
@@ -175,7 +171,6 @@ The NUC 16 Pro is the Windows alternative to Mac mini. It's powerful, expandable
 **OpenClaw Fit:** ⭐⭐⭐⭐
 The Retro X5 is a value pick with serious horsepower. The Ryzen AI 9 chip handles OpenClaw agents smoothly, and the NPU accelerates AI inference tasks. If you're running local LLMs or AI-powered agent flows, this mini PC punches above its price. The retro design is fun but secondary—performance is solid.
 
-**[→ Buy on Amazon (affiliate link)](https://amzn.to/acemagic-retro-x5)** | **[→ ACEMAGIC Direct (affiliate link)](https://acemagic.com/products/x5-mini-pc)**
 
 ---
 
@@ -209,7 +204,6 @@ The Retro X5 is a value pick with serious horsepower. The Ryzen AI 9 chip handle
 **OpenClaw Fit:** ⭐⭐⭐⭐
 The EVO-T2 is a value beast. 64GB RAM lets you run multiple OpenClaw sub-agents, browser sessions, and local LLMs simultaneously. If you're maxing out RAM on a budget, this is the pick. Intel's Panther Lake handles agent orchestration well. Just expect more fan noise than a Mac mini.
 
-**[→ Buy on Amazon (affiliate link)](https://amzn.to/gmktec-evo-t2)** | **[→ GMKtec Direct (affiliate link)](https://gmktec.com/evo-t2)**
 
 ---
 
@@ -244,7 +238,6 @@ The EVO-T2 is a value beast. 64GB RAM lets you run multiple OpenClaw sub-agents,
 **OpenClaw Fit:** ⭐⭐⭐⭐
 The AtomMan G1 Pro is the performance pick. If you're running local LLMs with CUDA acceleration (Ollama + NVIDIA), this mini PC is unmatched. The RTX 5060 handles 7B-70B models efficiently. For pure OpenClaw agent orchestration, it's overkill—but if you want one box for agents + local AI + light gaming, this is it.
 
-**[→ Buy on Amazon (affiliate link)](https://amzn.to/minisforum-g1-pro)** | **[→ Minisforum Direct (affiliate link)](https://minisforum.com/products/g1-pro)** | **[→ Newegg (affiliate link)](https://newegg.com/minisforum-atomman-g1-pro)**
 
 ---
 
@@ -369,35 +362,6 @@ Mac mini M4 is most efficient (~7W idle). Factor this into TCO for always-on dep
 
 ---
 
-## Where to Buy (Affiliate Links)
-
-We've curated trusted retailers with competitive pricing and reliable shipping:
-
-### 🛒 Amazon Associates
-- [Mac mini M4](https://amzn.to/mac-mini-m4)
-- [ASUS NUC 16 Pro](https://amzn.to/asus-nuc-16-pro)
-- [ACEMAGIC Retro X5](https://amzn.to/acemagic-retro-x5)
-- [GMKtec EVO-T2](https://amzn.to/gmktec-evo-t2)
-- [Minisforum AtomMan G1 Pro](https://amzn.to/minisforum-g1-pro)
-
-### 🛒 Newegg Affiliate
-- [Mini PCs Category](https://newegg.com/mini-pcs)
-- [ASUS NUC 16 Pro](https://newegg.com/asus-nuc-16-pro)
-- [Minisforum AtomMan G1 Pro](https://newegg.com/minisforum-atomman-g1-pro)
-
-### 🛒 B&H Photo (affiliate)
-- [Mac mini](https://bhphoto.video/mac-mini-m4)
-- [Intel NUC](https://bhphoto.video/intel-nuc)
-- [Mini PC Accessories](https://bhphoto.video/mini-pc-accessories)
-
-### 🛒 Direct from Manufacturer
-- [Apple Store](https://apple.com/shop/buy-mac/mac-mini)
-- [ACEMAGIC](https://acemagic.com/products/x5-mini-pc)
-- [GMKtec](https://gmktec.com/evo-t2)
-- [Minisforum](https://minisforum.com/products/g1-pro)
-
----
-
 ## Final Recommendations
 
 ### 🏆 Best Overall: Mac mini M4
@@ -419,9 +383,10 @@ For Windows-based agent tooling, the NUC 16 Pro balances performance, expandabil
 
 ## Related Guides on EasyHTPC
 
-- [Best Mini PCs for Home Theater PCs (2026)](https://easyhtpc.com/best-mini-pcs-htpc)
-- [Building a Quiet Home Server](https://easyhtpc.com/quiet-home-server-build)
-- [OpenClaw Hardware Deep Dive](https://easyhtpc.com/openclaw-hardware-guide)
+- [Best Mini PCs for Kodi in 2026](/mini-pcs/best-mini-pcs-kodi-2026/)
+- [How to Build the Perfect HTPC in 2026](/mini-pcs/how-to-build-htpc-2026/)
+- [Beelink vs Minisforum vs Intel NUC Comparison](/mini-pcs/beelink-minisforum-nuc-comparison/)
+- [CasaOS Setup Guide: Docker Made Easy](/media-servers/casaos-setup-guide/)
 - [Low-Power 24/7 PC Builds](https://easyhtpc.com/low-power-always-on-pc)
 
 ---
