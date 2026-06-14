@@ -1,3 +1,58 @@
+# Standard search crawlers — full access
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# AI search retrieval bots — ALLOW
+# These power AI Overviews, ChatGPT Search, Perplexity citations, and Gemini.
+# Blocking these cuts off GEO (Generative Engine Optimization) visibility.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# AI training-only scrapers — BLOCK
+# These harvest content for model training without providing search/citation value.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: omgili
+Disallow: /
+
+# Default — allow all other crawlers
 User-agent: *
 Allow: /
 

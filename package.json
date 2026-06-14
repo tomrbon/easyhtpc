@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "EasyHTPC - Your Guide to Home Theater PCs & Media Centers",
   "scripts": {
-    "build": "npx @11ty/eleventy",
-    "serve": "npx @11ty/eleventy --serve",
+    "build": "eleventy",
+    "serve": "eleventy --serve",
     "clean": "rm -rf _site"
   },
   "keywords": [
@@ -17,6 +17,9 @@
   ],
   "author": "EasyHTPC",
   "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1"
   }

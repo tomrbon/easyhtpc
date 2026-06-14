@@ -1,5 +1,6 @@
 ---
 layout: base.njk
+schemaType: "article"
 ---
 
 <article class="article-page">
@@ -10,13 +11,13 @@ layout: base.njk
       <a href="/articles/">Articles</a>
       {% if category %}
       <span class="breadcrumb-sep">/</span>
-      <a href="/categories/{{ category }}/">{{ category | replace("-", " ") | title }}</a>
+      <a href="/{{ category }}/">{{ category | replace("-", " ") | title }}</a>
       {% endif %}
     </div>
     
     {% if image %}
-    <div class="article-featured-image">
-      <img src="{{ image }}" alt="{{ title }}" loading="lazy">
+    <div class="article-header-image">
+      <img src="{{ image }}" alt="{{ title }}" width="800" height="400" loading="eager" fetchpriority="high">
     </div>
     {% endif %}
     
@@ -35,7 +36,7 @@ layout: base.njk
       {% endif %}
       {% if category %}
       <span class="article-category-badge">
-        <a href="/categories/{{ category }}/">{{ category | replace("-", " ") | title }}</a>
+        <a href="/{{ category }}/">{{ category | replace("-", " ") | title }}</a>
       </span>
       {% endif %}
       <span class="article-reading-time">
@@ -78,33 +79,4 @@ layout: base.njk
     </div>
   </footer>
   
-  {# JSON-LD Schema for Article #}
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "{{ title | escape }}",
-    "description": "{{ description | escape }}",
-    "image": "{{ image }}",
-    "datePublished": "{{ date | dateToISOString }}",
-    "dateModified": "{{ date | dateToISOString }}",
-    "author": {
-      "@type": "Organization",
-      "name": "EasyHTPC",
-      "url": "https://easyhtpc.com"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "EasyHTPC",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://easyhtpc.com/logo.png"
-      }
-    },
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://easyhtpc.com{{ page.url }}"
-    }
-  }
-  </script>
 </article>

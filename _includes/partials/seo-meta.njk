@@ -30,17 +30,14 @@
 {%- endif -%}
 
 {#- Description processing -#}
-{%- set pageDescription = description | default(defaultDescription) -%}
-{%- if pageDescription | length > 160 -%}
-  {%- set pageDescription = pageDescription | slice(0, 157) + "..." -%}
-{%- endif -%}
+{%- set pageDescription = description | default(defaultDescription) | truncate(160) -%}
 
 {#- Image processing -#}
 {%- set ogImage = image | default(defaultImage) -%}
-{%- if not ogImage | startsWith("http") -%}
-  {%- set ogImageUrl = siteUrl + ogImage -%}
-{%- else -%}
+{%- if ogImage | startsWith("http") -%}
   {%- set ogImageUrl = ogImage -%}
+{%- else -%}
+  {%- set ogImageUrl = siteUrl + ogImage -%}
 {%- endif -%}
 
 {#- Page URL -#}

@@ -1,0 +1,44 @@
+# Cloudflare Pages redirects
+# Generated when migrating from /posts/{slug}/ to /{category}/{slug}/ URLs
+# and from /categories/{slug}/ to /{slug}/ for category hubs.
+
+# ── Article redirects (old numbered /posts/ URLs → clean category URLs) ──────
+/posts/01-best-vpn-streaming-2026/              /vpn/best-vpn-streaming-2026/                           301
+/posts/02-geo-blocked-plex/                     /media-servers/geo-blocked-plex/                        301
+/posts/03-jellyfin-plex-emby-comparison/        /media-servers/jellyfin-plex-emby-comparison/           301
+/posts/04-cord-cutting-guide-2026/              /streaming/cord-cutting-guide-2026/                     301
+/posts/05-best-mini-pc-plex-2026/               /mini-pcs/best-mini-pc-plex-2026/                       301
+/posts/06-nvidia-shield-pro-review/             /streaming/nvidia-shield-pro-review/                    301
+/posts/07-nas-setup-home-media/                 /storage/nas-setup-home-media/                          301
+/posts/08-watch-sports-without-cable/           /streaming/watch-sports-without-cable/                  301
+/posts/09-vpn-for-kodi-guide/                   /vpn/vpn-for-kodi-guide/                                301
+/posts/10-best-nas-for-plex-2026/               /storage/best-nas-for-plex-2026/                        301
+/posts/11-beelink-minisforum-nuc-comparison/    /mini-pcs/beelink-minisforum-nuc-comparison/            301
+/posts/12-best-mini-pcs-kodi-2026/              /mini-pcs/best-mini-pcs-kodi-2026/                      301
+/posts/13-budget-htpc-mini-pc/                  /mini-pcs/budget-htpc-mini-pc/                          301
+/posts/14-best-htpc-remotes-2026/               /remotes/best-htpc-remotes-2026/                        301
+/posts/15-air-mouse-remotes-mini-pc/            /remotes/air-mouse-remotes-mini-pc/                     301
+/posts/16-flirc-usb-setup-guide/                /remotes/flirc-usb-setup-guide/                         301
+/posts/17-wireless-keyboards-htpc/              /remotes/wireless-keyboards-htpc/                       301
+/posts/18-casaos-setup-guide/                   /media-servers/casaos-setup-guide/                      301
+/posts/19-mergerfs-snapraid-guide/              /media-servers/mergerfs-snapraid-guide/                 301
+/posts/20-saltbox-hetzner-guide/                /media-servers/saltbox-hetzner-guide/                   301
+/posts/21-best-mini-pcs-openclaw-agents-2026/   /mini-pcs/best-mini-pcs-openclaw-agents-2026/           301
+/posts/22-media-server-software-comparison-2026/ /media-servers/media-server-software-comparison-2026/  301
+/posts/23-best-external-hard-drives-htpc-2026/  /storage/best-external-hard-drives-htpc-2026/           301
+/posts/24-htpc-windows-vs-linux-2026/           /mini-pcs/htpc-windows-vs-linux-2026/                   301
+/posts/25-how-to-build-htpc-2026/               /mini-pcs/how-to-build-htpc-2026/                       301
+/posts/26-sata-vs-nvme-htpc-storage-2026/       /storage/sata-vs-nvme-htpc-storage-2026/                301
+/posts/27-roku-vs-amazon-fire-tv-vs-chromecast-2026/ /streaming/roku-vs-amazon-fire-tv-vs-chromecast-2026/ 301
+/posts/28-plex-live-tv-guide-2026/              /streaming/plex-live-tv-guide-2026/                     301
+/posts/29-best-hdmi-cables-htpc-2026/           /remotes/best-hdmi-cables-htpc-2026/                    301
+/posts/30-home-network-setup-media-streaming-2026/ /media-servers/home-network-setup-media-streaming-2026/ 301
+/posts/31-raspberry-pi-htpc-2026/               /mini-pcs/raspberry-pi-htpc-2026/                       301
+
+# ── Category hub redirects (old /categories/ prefix → clean /{slug}/) ────────
+/categories/streaming/      /streaming/       301
+/categories/mini-pcs/       /mini-pcs/        301
+/categories/media-servers/  /media-servers/   301
+/categories/storage/        /storage/         301
+/categories/remotes/        /remotes/         301
+/categories/vpn/            /vpn/             301

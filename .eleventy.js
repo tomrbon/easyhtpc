@@ -121,9 +121,14 @@ module.exports = function(eleventyConfig) {
   // Title case filter
   eleventyConfig.addFilter('title', function(text) {
     if (!text) return '';
-    return text.replace(/\w\S*/g, txt => 
+    return text.replace(/\w\S*/g, txt =>
       txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
     );
+  });
+
+  // String prefix check — used by seo-meta.njk to detect absolute image URLs
+  eleventyConfig.addFilter('startsWith', function(str, prefix) {
+    return typeof str === 'string' && str.startsWith(prefix);
   });
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -174,6 +179,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("fonts");
   eleventyConfig.addPassthroughCopy("robots.txt");
+  eleventyConfig.addPassthroughCopy("_redirects");
   eleventyConfig.addPassthroughCopy("browserconfig.xml");
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -196,10 +202,29 @@ module.exports = function(eleventyConfig) {
   // COLLECTIONS
   // ═══════════════════════════════════════════════════════════════════════════
   
-  // Posts collection
+  // Posts collection — all posts sorted by date
   eleventyConfig.addCollection('posts', function(collectionApi) {
     return collectionApi.getFilteredByGlob('posts/*.md')
       .sort((a, b) => b.date - a.date);
+  });
+
+  // Per-category collections — filtered by `category` front matter field.
+  // Named in camelCase so hyphenated slugs (mini-pcs, media-servers) work in
+  // Nunjucks dot notation (collections.miniPcs, collections.mediaServers).
+  const categoryMap = {
+    streaming:      'streaming',
+    miniPcs:        'mini-pcs',
+    storage:        'storage',
+    remotes:        'remotes',
+    mediaServers:   'media-servers',
+    vpn:            'vpn',
+  };
+  Object.entries(categoryMap).forEach(([collectionName, categorySlug]) => {
+    eleventyConfig.addCollection(collectionName, function(collectionApi) {
+      return collectionApi.getFilteredByGlob('posts/*.md')
+        .filter(p => p.data.category === categorySlug)
+        .sort((a, b) => b.date - a.date);
+    });
   });
 
   // ═══════════════════════════════════════════════════════════════════════════
