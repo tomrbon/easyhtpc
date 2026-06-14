@@ -123,8 +123,9 @@
     {%- endif %}
     "author": {
       "@type": "Person",
-      "name": "{{ article.author | default('EasyHTPC Team') }}",
-      "url": "{{ siteUrl }}/about/"
+      "@id": "{{ siteUrl }}/author/thomas-maxwell/#person",
+      "name": "{{ article.author | default('Thomas Maxwell') }}",
+      "url": "{{ siteUrl }}/author/thomas-maxwell/"
     },
     "publisher": {
       "@id": "{{ siteUrl }}/#organization"

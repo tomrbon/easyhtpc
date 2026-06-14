@@ -1,0 +1,130 @@
+---
+layout: base.njk
+title: "Thomas Maxwell — HTPC & Media Server Expert"
+description: "Thomas Maxwell has 30+ years in tech hardware and runs a hands-on Linux media server with Plex, Jellyfin, Mergerfs, and SnapRAID. He writes every article on EasyHTPC."
+permalink: /author/thomas-maxwell/
+schemaType: "author"
+---
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": "https://easyhtpc.com/author/thomas-maxwell/#author-page",
+  "dateCreated": "2026-03-01",
+  "dateModified": "2026-06-14",
+  "mainEntity": {
+    "@type": "Person",
+    "@id": "https://easyhtpc.com/author/thomas-maxwell/#person",
+    "name": "Thomas Maxwell",
+    "url": "https://easyhtpc.com/author/thomas-maxwell/",
+    "jobTitle": "Founder & Editor",
+    "worksFor": {
+      "@type": "Organization",
+      "@id": "https://easyhtpc.com/#organization"
+    },
+    "description": "Thomas Maxwell has over 30 years of experience in computer hardware and technology. He founded EasyHTPC and writes every article on the site, drawing on a hands-on home media server setup and decades of hardware expertise.",
+    "knowsAbout": [
+      "Home Theater PCs",
+      "Media Servers",
+      "Plex",
+      "Jellyfin",
+      "Linux",
+      "Docker",
+      "Network Attached Storage",
+      "Computer Hardware",
+      "Mergerfs",
+      "SnapRAID",
+      "Cord Cutting",
+      "Streaming Devices"
+    ]
+  }
+}
+</script>
+
+<div class="static-page author-page">
+
+  <div class="author-header">
+    <div class="author-avatar-placeholder" aria-hidden="true">TM</div>
+    <div class="author-header-content">
+      <h1>Thomas Maxwell</h1>
+      <p class="author-title">Founder &amp; Editor, EasyHTPC</p>
+      <p class="author-tagline">30+ years in tech hardware &mdash; runs the setup he writes about</p>
+    </div>
+  </div>
+
+  <section class="author-bio">
+    <h2>About Thomas</h2>
+    <p>Thomas Maxwell has spent over three decades working with computer hardware &mdash; from the early days of building custom PCs to today's world of compact mini PCs, NAS drives, and self-hosted media servers. He founded EasyHTPC to share practical, no-nonsense guidance for anyone looking to take control of their home entertainment setup.</p>
+
+    <p>Thomas doesn't write theoretical content. Every guide and recommendation on this site comes from direct experience: he has gone through the same research, hardware purchases, configuration headaches, and eventual "it finally works" moments that readers are navigating.</p>
+  </section>
+
+  <section class="author-setup">
+    <h2>His Current Setup</h2>
+    <p>Thomas runs a personal media server he has refined over years. As of 2026, it consists of:</p>
+    <ul>
+      <li><strong>OS:</strong> Linux Mint &mdash; chosen for its stability and hardware compatibility</li>
+      <li><strong>Storage:</strong> Mergerfs for drive pooling + SnapRAID for data protection &mdash; the combination that gives you flexibility without the cost of a full RAID array</li>
+      <li><strong>Containers:</strong> Docker for running isolated services cleanly</li>
+      <li><strong>Media software:</strong> Both Plex and Jellyfin running simultaneously, allowing him to compare real-world performance between the two rather than relying on benchmarks alone</li>
+      <li><strong>In development:</strong> NovaCast &mdash; a Plex-style media player Thomas is actively building, giving him an inside perspective on how media server software actually works under the hood</li>
+    </ul>
+    <p>This is the same stack he covers in EasyHTPC's guides. When he writes about Mergerfs performance or Jellyfin transcoding behavior, he is describing something he has tested and tuned on his own hardware.</p>
+  </section>
+
+  <section class="author-expertise">
+    <h2>Areas of Expertise</h2>
+    <ul>
+      <li>Computer hardware (CPUs, storage, networking) &mdash; 30+ years hands-on</li>
+      <li>Linux system administration and Docker containerization</li>
+      <li>Media server software: Plex, Jellyfin, Emby, Kodi</li>
+      <li>NAS and storage architecture: Mergerfs, SnapRAID, RAID alternatives</li>
+      <li>Mini PC selection and HTPC builds</li>
+      <li>Cord-cutting, streaming devices, and VPN configuration</li>
+      <li>Software development (currently building NovaCast)</li>
+    </ul>
+  </section>
+
+  <section class="author-methodology">
+    <h2>How Thomas Approaches Reviews &amp; Recommendations</h2>
+    <p>EasyHTPC publishes two types of content, and Thomas is transparent about which is which:</p>
+
+    <h3>Hands-On Reviews</h3>
+    <p>For products Thomas has personally used &mdash; hardware in his server rack, software running in his Docker stack, remotes paired to his setup &mdash; articles are written from direct experience. He notes configuration quirks, real-world performance, and things that marketing specs don't tell you.</p>
+
+    <h3>Research-Based Guides</h3>
+    <p>For broader category guides and products he hasn't personally owned, Thomas draws on manufacturer specifications, community forums (r/htpc, r/PleX, r/DataHoarder), trusted benchmark sources, and his 30+ years of hardware knowledge to evaluate what matters. These articles are clearly framed as buying guides rather than personal reviews.</p>
+
+    <p>In both cases, affiliate commissions never influence which products are recommended. A product that doesn't earn a commission but genuinely serves readers will be recommended over one that does. See the <a href="/about/">editorial standards page</a> for full details.</p>
+  </section>
+
+  <section class="author-articles">
+    <h2>Recent Articles by Thomas</h2>
+    <div class="articles-grid">
+      {% for post in collections.posts | limit(6) %}
+      <article class="article-card">
+        <div class="article-image">
+          <img src="{{ post.data.image | default('https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&h=400&fit=crop') }}" alt="{{ post.data.title }}" loading="lazy">
+        </div>
+        <div class="article-content">
+          <div class="article-meta">
+            {% if post.data.category %}
+            <span class="article-category">{{ post.data.category }}</span>
+            {% endif %}
+            <span class="article-date">{{ post.date | dateFormat }}</span>
+          </div>
+          <h3 class="article-title">
+            <a href="{{ post.url }}">{{ post.data.title }}</a>
+          </h3>
+          <p class="article-excerpt">{{ post.data.description | truncate(120) }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    <div class="articles-cta">
+      <a href="/articles/" class="btn btn-primary">View All Articles</a>
+    </div>
+  </section>
+
+</div>

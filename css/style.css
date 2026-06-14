@@ -1332,3 +1332,146 @@ table tr.best-choice td:first-child::before {
 .quick-tips li {
   margin: 0.5rem 0;
 }
+
+/* ── Author bio box (article footer) ─────────────────────────────────────── */
+.author-bio-box {
+  display: flex;
+  gap: var(--space-5);
+  align-items: flex-start;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  margin: var(--space-10) 0;
+}
+
+.author-bio-avatar {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.author-bio-content {
+  flex: 1;
+}
+
+.author-bio-name {
+  margin: 0 0 var(--space-2);
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+.author-bio-name a {
+  color: var(--color-text);
+}
+
+.author-bio-description {
+  margin: 0 0 var(--space-3);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.author-bio-link {
+  font-size: 0.875rem;
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.author-bio-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Author page ──────────────────────────────────────────────────────────── */
+.author-page .author-header {
+  display: flex;
+  gap: var(--space-6);
+  align-items: center;
+  margin-bottom: var(--space-10);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.author-avatar-placeholder {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.author-header-content h1 {
+  margin: 0 0 var(--space-1);
+}
+
+.author-title {
+  margin: 0 0 var(--space-1);
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+.author-tagline {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.author-page section {
+  margin-bottom: var(--space-10);
+}
+
+/* ── Author card (About page) ─────────────────────────────────────────────── */
+.author-card {
+  display: flex;
+  gap: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  margin: var(--space-6) 0;
+}
+
+.author-card-info h3 {
+  margin: 0 0 var(--space-1);
+}
+
+.author-card-info p {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.author-card-link {
+  color: var(--accent-primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.author-card-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Article author meta (header byline) ─────────────────────────────────── */
+.article-author-meta {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.article-author-meta a {
+  color: var(--color-text);
+  font-weight: 500;
+}

@@ -43,6 +43,9 @@ schemaType: "article"
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
         {{ content | readTime }} min read
       </span>
+      <span class="article-author-meta">
+        By <a href="/author/thomas-maxwell/">Thomas Maxwell</a>
+      </span>
     </div>
   </header>
   
@@ -51,6 +54,8 @@ schemaType: "article"
   </div>
   
   <footer class="article-footer">
+    {% include "partials/author-bio.njk" %}
+
     {% include "partials/affiliate-disclosure.njk" %}
     
     {% set related = page | relatedArticles(collections.posts, 4) %}
