@@ -10,12 +10,12 @@ title: All Articles
       {% for post in collections.posts %}
       <article class="article-card">
         <div class="article-image">
-          <img src="{{ post.data.image | default('https://source.unsplash.com/FEATURED/800x400/?streaming') }}" alt="{{ post.data.title }}" loading="lazy">
+          <img src="{{ post.data.image | default('https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&h=400&fit=crop') }}" alt="{{ post.data.title }}" loading="lazy">
         </div>
         <div class="article-content">
           <div class="article-meta">
-            {% if post.data.categories[0] %}
-            <span class="article-category">{{ post.data.categories[0] }}</span>
+            {% if post.data.category %}
+            <span class="article-category">{{ post.data.category | replace("-", " ") }}</span>
             {% endif %}
             <span class="article-date">{{ post.data.date | dateFormat }}</span>
           </div>

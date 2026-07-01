@@ -58,7 +58,7 @@ schemaType: "article"
 
     {% include "partials/affiliate-disclosure.njk" %}
     
-    {% set related = page | relatedArticles(collections.posts, 4) %}
+    {% set related = collections.posts | relatedPosts(page.url, category, tags, 4) %}
     {% if related.length > 0 %}
     <section class="related-articles">
       <h2>Related Articles</h2>

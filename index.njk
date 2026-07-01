@@ -6,8 +6,13 @@ title: EasyHTPC - Your Guide to Home Theater PCs & Media Centers
 <section class="hero">
   <div class="container">
     <div class="hero-content">
+      <span class="hero-eyebrow"><span class="dot"></span>Hands-on guides since 2026</span>
       <h1 class="hero-title">{{ site.tagline }}</h1>
       <p class="hero-subtitle">Expert guides, reviews, and tutorials for building your ultimate home media experience. From streaming to storage, we've got you covered.</p>
+      <div class="hero-actions">
+        <a href="/articles/" class="btn btn-primary">Browse All Guides</a>
+        <a href="/about/" class="btn btn-ghost">How We Test</a>
+      </div>
     </div>
   </div>
 </section>
@@ -17,7 +22,7 @@ title: EasyHTPC - Your Guide to Home Theater PCs & Media Centers
     <h2 class="section-title">Browse by Category</h2>
     <div class="categories-grid">
       {% for cat in categories %}
-      <a href="/categories/{{ cat.slug }}/" class="category-card" style="--cat-color: {{ cat.color }}">
+      <a href="/{{ cat.slug }}/" class="category-card" style="--cat-color: {{ cat.color }}">
         <span class="category-icon">{{ cat.icon }}</span>
         <span class="category-name">{{ cat.name }}</span>
         <span class="category-desc">{{ cat.description | truncate(80) }}</span>

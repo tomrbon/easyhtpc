@@ -136,6 +136,28 @@ module.exports = function(eleventyConfig) {
   // For internal linking strategy
   // ═══════════════════════════════════════════════════════════════════════════
   
+  // Template-friendly variant: takes the current page's url/category/tags as
+  // plain arguments (Eleventy's `page` object has no .data, so templates
+  // can't build the collection-item shape relatedArticles expects).
+  eleventyConfig.addFilter('relatedPosts', function(allArticles, url, category, tags, limit = 4) {
+    if (!allArticles) return [];
+    const currentTags = tags || [];
+    return allArticles
+      .filter(a => a.url !== url)
+      .filter(a => a.data && a.data.category)
+      .map(a => {
+        let score = 0;
+        if (a.data.category === category) score += 10;
+        const aTags = a.data.tags || [];
+        score += currentTags.filter(t => aTags.includes(t)).length * 3;
+        return { article: a, score };
+      })
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, limit)
+      .map(item => item.article);
+  });
+
   eleventyConfig.addFilter('relatedArticles', function(article, allArticles, limit = 3) {
     if (!article || !allArticles || !article.data) return [];
     
