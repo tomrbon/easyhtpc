@@ -4,7 +4,7 @@ description: "Cut the cord without losing live TV. This guide shows you how to s
 date: 2025-12-10
 categories: ["streaming"]
 category: "streaming"
-image: "https://images.unsplash.com/photo-1576669930276-7c3b45d70a07?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1467293622093-9f15c96be70f?w=800&h=400&fit=crop"
 tags: ["streaming", "plex", "live-tv", "cord-cutting", "dvr"]
 layout: article.njk
 ---

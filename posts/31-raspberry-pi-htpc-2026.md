@@ -4,7 +4,7 @@ description: "Can a Raspberry Pi actually replace a dedicated HTPC? We test Rasp
 date: 2025-12-18
 categories: ["mini-pcs"]
 category: "mini-pcs"
-image: "https://images.unsplash.com/photo-1558449004-3c3c0761b24c?w=800&h=400&fit=crop"
+image: "https://images.unsplash.com/photo-1580584126903-c17d41830450?w=800&h=400&fit=crop"
 tags: ["mini-pcs", "raspberry-pi", "htpc-build", "budget"]
 layout: article.njk
 ---
