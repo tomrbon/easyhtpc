@@ -14,8 +14,8 @@
   "analytics": {
     "cloudflareToken": "",
     "umami": {
-      "src": "",
-      "websiteId": ""
+      "src": "https://stats.easyhtpc.com/script.js",
+      "websiteId": "b3f55110-9bd8-4892-9846-9a6cea9027b3"
     }
   }
 }
