@@ -9,4 +9,54 @@
 {% if site.analytics.umami.websiteId %}
 <!-- Umami (self-hosted, multi-site dashboard) -->
 <script defer src="{{ site.analytics.umami.src }}" data-website-id="{{ site.analytics.umami.websiteId }}"></script>
+<!-- Engagement + affiliate-click events. Single-page article visits register
+     as 1s bounces without these; events give Umami real visit durations and
+     make affiliate clicks countable per page/product. -->
+<script>
+(function () {
+  function track(name, data) {
+    if (window.umami && typeof umami.track === 'function') umami.track(name, data);
+  }
+
+  // Affiliate clicks — covers the in-article boxes and the VPN CTA buttons
+  // (capture phase so the event fires before navigation starts)
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.affiliate-box-link, a.vpn-cta-button');
+    if (!a) return;
+    var box = a.closest('.affiliate-box');
+    var product = box && box.querySelector('.affiliate-box-title');
+    track('affiliate-click', {
+      product: (product ? product.textContent : a.textContent).trim(),
+      url: a.href,
+      page: location.pathname
+    });
+  }, true);
+
+  // Scroll depth (once per page)
+  var fired = {};
+  window.addEventListener('scroll', function () {
+    var h = document.documentElement;
+    var pct = Math.round((h.scrollTop + window.innerHeight) / h.scrollHeight * 100);
+    if (pct >= 75 && !fired.scroll75) {
+      fired.scroll75 = 1;
+      track('scroll-75', { page: location.pathname });
+    }
+  }, { passive: true });
+
+  // Active reading time — only counts while the tab is visible
+  var seconds = 0;
+  setInterval(function () {
+    if (document.hidden) return;
+    seconds++;
+    if (seconds === 30 && !fired.read30) {
+      fired.read30 = 1;
+      track('read-30s', { page: location.pathname });
+    }
+    if (seconds === 120 && !fired.read120) {
+      fired.read120 = 1;
+      track('read-2min', { page: location.pathname });
+    }
+  }, 1000);
+})();
+</script>
 {% endif %}
