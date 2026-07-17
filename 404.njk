@@ -1,0 +1,21 @@
+---
+layout: base.njk
+title: Page Not Found
+permalink: /404.html
+robots: noindex
+eleventyExcludeFromCollections: true
+---
+
+<div class="static-page" style="text-align: center;">
+  <h1>404 — This Page Doesn't Exist</h1>
+  <p>The page you're looking for has moved or never existed. The site was reorganized, so old links may be out of date.</p>
+  <p style="margin-top: 2rem;">
+    <a href="/articles/" class="btn btn-primary">Browse All Articles</a>
+  </p>
+  <h2 style="margin-top: 3rem;">Popular sections</h2>
+  <ul style="list-style: none; padding: 0;">
+    {% for cat in categories %}
+    <li style="margin-bottom: 0.5rem;"><a href="/{{ cat.slug }}/">{{ cat.icon }} {{ cat.name }}</a></li>
+    {% endfor %}
+  </ul>
+</div>

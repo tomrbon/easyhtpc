@@ -35,6 +35,13 @@
 /posts/30-home-network-setup-media-streaming-2026/ /media-servers/home-network-setup-media-streaming-2026/ 301
 /posts/31-raspberry-pi-htpc-2026/               /mini-pcs/raspberry-pi-htpc-2026/                       301
 
+# ── Legacy WordPress-era URLs still in Google's index → closest modern page ──
+/streaming-sticks/                /streaming/                                              301
+/best-streaming-devices/          /streaming/roku-vs-amazon-fire-tv-vs-chromecast-2026/    301
+/best-streaming-device/           /streaming/roku-vs-amazon-fire-tv-vs-chromecast-2026/    301
+/best-streaming-device-for-tv/    /streaming/best-budget-streaming-devices-under-50-2026/  301
+/which-speaker-is-best-for-home/  /streaming/soundbar-vs-av-receiver-2026/                 301
+
 # ── Category hub redirects (old /categories/ prefix → clean /{slug}/) ────────
 /categories/streaming/      /streaming/       301
 /categories/mini-pcs/       /mini-pcs/        301
