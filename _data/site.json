@@ -10,5 +10,12 @@
     "github": "easyhtpc"
   },
   "categories": ["streaming", "mini-pcs", "storage", "remotes", "media-servers", "vpn"],
-  "timezone": "America/New_York"
+  "timezone": "America/New_York",
+  "analytics": {
+    "cloudflareToken": "",
+    "umami": {
+      "src": "",
+      "websiteId": ""
+    }
+  }
 }

@@ -1,0 +1,12 @@
+{# Analytics beacons — configured per-site in _data/site.json under "analytics".
+   Both providers are optional and independent; nothing renders while the
+   values are empty, so this include is always safe. To reuse on another
+   site: copy this file, add the "analytics" block to that site's data. #}
+{% if site.analytics.cloudflareToken %}
+<!-- Cloudflare Web Analytics -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ site.analytics.cloudflareToken }}"}'></script>
+{% endif %}
+{% if site.analytics.umami.websiteId %}
+<!-- Umami (self-hosted, multi-site dashboard) -->
+<script defer src="{{ site.analytics.umami.src }}" data-website-id="{{ site.analytics.umami.websiteId }}"></script>
+{% endif %}
