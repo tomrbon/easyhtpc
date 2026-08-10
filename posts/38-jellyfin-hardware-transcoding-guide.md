@@ -194,40 +194,91 @@ Restart the container after saving.
 
 ## Step 7: Verify It's Actually Working
 
-The step everyone skips — and the reason my own server sat misconfigured for weeks.
+The step everyone skips — and the reason my own server sat misconfigured.
 
-Force a transcode (play a 4K file, drop quality to 720p), then on the host:
-
-```bash
-sudo intel_gpu_top
-```
-
-Watch the **Video** engine. If it's busy, Quick Sync is doing the work. If Video sits at 0% while `htop` shows cores pegged, you're still on CPU.
-
-Cross-check inside the container:
+First, confirm the driver loads *inside* the container. Jellyfin ships its own ffmpeg bundle, so you don't need anything installed on the host:
 
 ```bash
-docker exec jellyfin vainfo
+docker exec jellyfin /usr/lib/jellyfin-ffmpeg/vainfo --display drm --device /dev/dri/renderD128
 ```
 
-And in Jellyfin's dashboard, the active stream should read **Transcoding (hw)** rather than plain "Transcoding."
+Mine now reports:
 
-If Video stays at zero:
+```
+libva info: va_openDriver() returns 0
+vainfo: VA-API version: 1.23 (libva 2.23.0)
+vainfo: Driver version: Intel iHD driver for Intel(R) Gen Graphics - 25.4.6
+      VAProfileH264High               : VAEntrypointEncSlice
+      VAProfileH264High               : VAEntrypointEncSliceLP
+```
+
+`va_openDriver() returns 0` plus `iHD driver` is what you want. Anything else and the container still can't reach the GPU.
+
+### The self-test that doesn't need a client
+
+Rather than fumbling with a TV and a quality slider, drive the same ffmpeg Jellyfin uses and watch it work:
+
+```bash
+docker exec jellyfin /usr/lib/jellyfin-ffmpeg/ffmpeg -hide_banner -stats \
+  -hwaccel qsv -hwaccel_output_format qsv -i "/media/path/to/file.mkv" \
+  -t 60 -vf "vpp_qsv=w=1280:h=720:format=nv12" -c:v h264_qsv -b:v 3M -an -f null -
+```
+
+If Quick Sync is genuinely working you'll see a speed multiple far above realtime. If it's broken, ffmpeg errors immediately rather than silently degrading — which is exactly why this beats eyeballing the dashboard.
+
+On the host you can also watch the video engine directly with `sudo intel_gpu_top` (package `intel-gpu-tools`) — the **Video** row should be busy, not just Render/3D.
+
+If it isn't working:
 
 - **`Devices: null`** — the compose fix in step 4 was never applied
 - **Wrong render node** — redo step 2 by PCI address
 - **Wrong GID** — redo step 3 on *your* host
 - **Codec gap** — an unsupported decode (AV1 on 10th gen, for instance) silently falls back
 
-## What to Expect Once It Works
+## The 10-Bit Trap That Cost Me an Hour
 
-Quick Sync throughput with tone mapping enabled, by class of chip:
+My first full-pipeline attempt failed with this, and the error message is uniquely unhelpful:
 
-- **N100**: 3–4 simultaneous 4K HDR → 1080p SDR, or 8+ 1080p→720p
+```
+[vost#0:0/h264_qsv] Terminating thread with return code -22 (Invalid argument)
+[out#0/null] Nothing was written into output file, because at least one of
+its streams received no packets.
+frame=0 fps=0.0 speed=N/A
+```
+
+Zero frames, no explanation. The cause: my source was **HEVC Main 10** (`pix_fmt=yuv420p10le`) — 10-bit — and `h264_qsv` encodes 8-bit. Using `scale_qsv` alone keeps the surface 10-bit, hands it to an encoder that can't take it, and you get `-22`.
+
+The fix is one filter change — `vpp_qsv` with an explicit format conversion:
+
+```
+-vf "vpp_qsv=w=1280:h=720:format=nv12"     # ✅ converts 10-bit → 8-bit NV12
+-vf "scale_qsv=w=1280:h=720"               # ❌ -22 on 10-bit sources
+```
+
+This matters more than it sounds: most modern x265 encodes are Main 10, so this trips on a large share of real libraries. Jellyfin's own transcode pipeline handles the conversion when tone mapping is configured — but if you're hand-testing with ffmpeg, this is the wall you'll hit.
+
+## Measured: Hardware vs Software on the Same Machine
+
+Numbers from my own box, same source, same output, same 60-second segment. Source: 1080p **HEVC Main 10**, 1916×1040, ~2 Mbps. Target: 720p H.264 at 3 Mbps.
+
+| Path | fps | Speed vs realtime |
+|---|---|---|
+| QSV decode only | — | **32.4×** |
+| QSV encode (software decode) | 287 | 11.9× |
+| **QSV full pipeline** (decode + scale + encode) | **428** | **17.8×** |
+| Software `libx264 veryfast`, all 20 threads | 221 | 9.19× |
+
+Two honest conclusions, and the second one is the one nobody writes down:
+
+**Hardware is about 1.9× faster than software here — not 10×.** If you've read that Quick Sync is an order of magnitude quicker, that's true against a weak CPU, not against a 10-core i9. Raw speed was never the point on a chip this size.
+
+**The real prize is what *else* the box can do.** The software run consumed all 20 threads to hit 9×. The hardware run hit 17.8× on a fixed-function engine drawing a few watts, leaving the CPU essentially free for the *arr stack, the database, and four more streams. On a 10-core i9 software transcoding *works* — it just costs you the entire machine. On an [N100 box](/mini-pcs/intel-n100-vs-n305-home-server-2026/) it doesn't work at all. **The cheaper your CPU, the more this setting matters — but even on an expensive one it buys back the whole processor.**
+
+Scaling that out to concurrent 4K HDR → 1080p SDR streams with tone mapping:
+
+- **N100**: 3–4 simultaneous, or 8+ 1080p→720p
 - **N305**: similar 4K numbers (same media engine), more headroom for everything else
-- **12th-gen i5 / 10th-gen i9 like mine**: 6–8 4K tone-mapped transcodes
-
-The wider point: on a 10-core i9, software transcoding *works* — it just burns 200W and heats the room to save a GPU engine that would have done it for a few watts. On an [N100 box](/mini-pcs/intel-n100-vs-n305-home-server-2026/), software transcoding doesn't work at all. The cheaper your CPU, the more this setting matters.
+- **10th-gen i9 / 12th-gen i5**: 6–8 4K tone-mapped transcodes
 
 And every transcode you avoid entirely beats every transcode you accelerate — match library formats to your clients and let them direct play. That's the same principle behind most [Plex buffering fixes](/media-servers/fix-plex-buffering-guide/).
 
@@ -256,10 +307,12 @@ Hardware transcoding fails quietly. It doesn't throw errors, it doesn't warn you
 
 ```bash
 docker inspect jellyfin --format '{{json .HostConfig.Devices}}'
-sudo intel_gpu_top   # during an actual transcode
+docker exec jellyfin /usr/lib/jellyfin-ffmpeg/vainfo --display drm --device /dev/dri/renderD128
 ```
 
-Run them on your own server. I wrote a guide about this and *still* found it wrong on mine.
+`null` on the first or a driver error on the second means you're transcoding on the CPU right now.
+
+Run them on your own server. I wrote a guide about this and *still* found it wrong on mine — two missing lines of YAML, silently costing an entire i9.
 
 ## Related Reading
 
