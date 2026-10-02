@@ -1,774 +1,362 @@
 ---
-title: "Mergerfs + SnapRAID: The Budget RAID Alternative"
-description: "Combine multiple drives into one massive storage pool with data protection—without the cost and complexity of hardware RAID. Perfect for home media servers."
-date: 2026-03-05
+title: "Mergerfs + SnapRAID Setup Guide: A Real 18TB Encrypted Array, Configs Included"
+description: "How to pool mixed drives with mergerfs and protect them with SnapRAID parity — using the real configuration from an 18TB, 6-drive, LUKS-encrypted home media server, including the mistakes its first week of logs exposed."
+date: 2026-10-02
 categories: ["media-servers"]
 category: "media-servers"
 image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=400&fit=crop"
-tags: ["media-servers", "software", "storage"]
+tags: ["media-servers", "mergerfs", "snapraid", "storage", "linux"]
 layout: article.njk
 ---
 
-## The Storage Dilemma Every Home Server Builder Faces
+## Why This Guide Exists
 
-You've decided to build a home media server. You've got your hardware picked out—a nice mini PC or repurposed desktop, plenty of RAM, and a fast boot drive. But when it comes to storage, you hit a wall of options that all seem to require a computer science degree to understand.
+Most mergerfs + SnapRAID guides are written from memory. This one is written from a running server: every config file, schedule and log excerpt below comes from the machine that serves my own media library, captured the week I finished upgrading it.
 
-Hardware RAID? Expensive, inflexible, and if the controller dies, you might lose everything. Software RAID like mdadm? Fast and free, but what happens when you want to add just one more drive? ZFS? Powerful, but it demands enterprise-grade RAM and doesn't let you mix drive sizes easily.
+That upgrade is also the honest part of the story. From June to late September, my mergerfs pool held about 9TB of media across four drives **with no parity at all**. One dead drive would have taken a quarter of the library with it. In the last week of September I added a fifth data drive and a dedicated parity drive and set up SnapRAID. Its first week of logs taught me more than the setup did, and both lessons are in here.
 
-What if there were a solution that combined the simplicity of just plugging in drives with the data protection of RAID, all while letting you use whatever drives you have lying around?
+If you just want the configs, skip ahead to **The Real Configuration** below.
 
-Enter the mergerfs + SnapRAID combination—a storage setup that's been quietly winning over home server enthusiasts for years. It's the approach I use on my Linux Mint-based media server, and after years of running it, I can confidently say it beats traditional RAID for most home users.
+## The Short Version: What Each Tool Does
 
----
+**mergerfs** pools several drives into one folder. My five data drives are mounted individually at `/mnt/disks/disk1` through `disk5`, and mergerfs presents them as a single 18TB `/mnt/storage`. Media servers, download tools and Docker containers only ever see `/mnt/storage`. Every file is still an ordinary file on an ordinary ext4 drive: pull any disk out, plug it into another Linux box, and its files are right there. No striping, no lock-in.
 
-## What Is Mergerfs?
+**SnapRAID** adds parity on a schedule. Once a night it reads the data drives and writes parity to a dedicated parity drive. If a data drive dies, SnapRAID rebuilds its contents from the surviving drives plus parity. It's not real-time: anything written since the last sync isn't protected until the next one. For a media library, where files are written once and then only read, that trade-off is almost free.
 
-<figure>
-  <img src="https://images.unsplash.com/photo-1506399558188-acca6f8cbf41?w=800&h=400&fit=crop" alt="Storage drives and data management" loading="lazy">
-  <figcaption>Multiple drives managed as a single storage pool</figcaption>
-</figure>
+Together they give you most of what home users want from RAID, with three advantages traditional RAID can't match:
 
-Mergerfs is a FUSE-based union filesystem for Linux. In plain English: it takes multiple separate folders on different drives and presents them as a single unified folder.
+- **Mixed drive sizes.** The parity drive only has to be as large as your *largest* data drive.
+- **Add drives one at a time.** No rebuilding the whole array to grow it.
+- **Failure is contained.** Lose more drives than you have parity for, and you lose *those drives' files*, not the entire array.
 
-### The Problem Mergerfs Solves
+## When Not to Use It
 
-Imagine you have three 8TB drives:
-- `/mnt/disk1` with 2TB free
-- `/mnt/disk2` with 500GB free
-- `/mnt/disk3` with 4TB free
+- **Databases, VMs, and anything with constant small writes.** Parity lags behind changes, and a file that changes mid-sync can't be protected reliably. (It's why my container configs live on the NVMe, not the pool.)
+- **Data you can't afford to lose since the last sync.** Nightly parity means up to a day of exposure.
+- **As a backup.** Parity protects against drive failure. It does nothing against ransomware, a mistaken `rm -rf`, a fire, or a bad sync that faithfully records the damage. See our [3-2-1 backup guide](/storage/backup-media-library-3-2-1-guide/).
 
-Without mergerfs, when you want to save a 2TB movie collection, you have to:
-1. Manually check which drive has space
-2. Split files across drives
-3. Remember where you put everything
-4. Update your Plex/Jellyfin library paths constantly
+For a library of movies, shows and music, it's an excellent fit.
 
-With mergerfs, you create a single mount point—say, `/mnt/media`—that combines all three drives. When you copy files to `/mnt/media`, mergerfs automatically distributes them across the drives based on your chosen policy. Your media server sees one massive 16TB pool instead of three separate 8TB drives.
+## The Real Hardware
 
-### How Mergerfs Works Under the Hood
+| Component | What's in the box |
+|---|---|
+| CPU | Intel Core i9-10900 (10 cores / 20 threads) |
+| OS | Linux Mint 22.2 on a Crucial P3 1TB NVMe |
+| Data drives 1–4 | 4 × Seagate BarraCuda 2.5" 4TB (ST4000LM024), **shucked** from Seagate Portable external drives |
+| Data drive 5 | Seagate IronWolf 4TB (ST4000VN006), new in the upgrade |
+| Parity drive | Seagate IronWolf 4TB (ST4000VN006), new in the upgrade |
+| Pool | mergerfs 2.33.5, **18TB, 11TB used (61%)** |
+| Encryption | Every data and parity drive is a LUKS container |
 
-Mergerfs doesn't actually move or copy your data. It's a virtual filesystem layer that:
+### SMR Data Drives, CMR Parity: Why the Mix Works
 
-1. **Presents** all underlying drives as one directory
-2. **Transparently routes** file operations to the appropriate drive
-3. **Tracks** which file lives on which drive
-4. **Handles** file creation according to your policy
+The four shucked BarraCudas are **SMR** drives. That's the drive technology most NAS guides, including [our own hard drive guide](/storage/best-nas-hard-drives-2026/), tell you to avoid. For a traditional RAID array that's sound advice: SMR drives slow to a crawl under the sustained random writes of a RAID rebuild.
 
-When you read a file, mergerfs looks it up and serves it from the correct drive. When you write a file, mergerfs picks the best drive based on your configuration. The beauty is that your files remain as regular files on regular drives—no special format, no lock-in.
+SnapRAID changes the maths. During a sync it only *reads* the data drives. The drive that gets written on every sync is the **parity** drive. A media library mostly receives large, sequential writes, which SMR handles reasonably well. In this array the cheap shucked SMR drives sit in the data slots, and a CMR IronWolf sits in the parity slot, where write behaviour matters most. If you're mixing drive types, that's the arrangement to aim for.
 
----
+<!-- AFFILIATE PLACEHOLDER: replace search URL with specific ASIN link -->
+<div class="affiliate-box">
+  <div class="affiliate-box-content">
+    <div class="affiliate-box-title">Seagate IronWolf 4TB (ST4000VN006)</div>
+    <div class="affiliate-box-description">The CMR NAS drive in this server's parity slot and fifth data bay</div>
+  </div>
+  <a href="https://www.amazon.com/s?k=seagate+ironwolf+4tb+st4000vn006&tag=easyhtpc-20" target="_blank" rel="nofollow sponsored noopener" class="affiliate-box-link">Check Price on Amazon →</a>
+</div>
 
-## What Is SnapRAID?
+### If You Encrypt, Encrypt the Parity Drive Too
 
-While mergerfs handles file pooling, SnapRAID handles data protection. It's a snapshot-based parity system that protects against drive failure without the overhead and complexity of traditional RAID.
+SnapRAID works on the *decrypted* filesystems, so parity is computed from your plaintext data. Drives fill unevenly, though, so there are regions of the parity file where only one data drive contributes. In those regions, the parity block **is** that drive's plaintext. An unencrypted parity drive next to encrypted data drives leaks real data. In my array the parity drive is LUKS-encrypted like the rest.
 
-### Traditional RAID vs SnapRAID
+## The Real Configuration
 
-To understand why SnapRAID is different, let's look at how traditional RAID works:
-
-**RAID 5 (Traditional):**
-- Data is striped across all drives with distributed parity
-- Any drive failure requires immediate rebuild
-- Rebuild puts stress on all remaining drives
-- If a second drive fails during rebuild, all data is lost
-- Must use drives of the same size for efficiency
-
-**SnapRAID:**
-- Calculates and stores parity data on dedicated parity drives
-- Parity is calculated on a schedule (not real-time)
-- Single drive failure is fully recoverable
-- Multiple drive failures up to parity count are recoverable
-- Mix any drive sizes—parity drive just needs to be as large as your largest data drive
-
-### Why "Snapshot" Parity Matters
-
-Traditional RAID writes parity information in real-time, which provides immediate protection but has downsides:
-
-- If you delete a file accidentally, RAID "protects" the deletion
-- If corruption occurs, it's immediately propagated to parity
-- Rebuild puts maximum stress on drives
-
-SnapRAID takes snapshots at scheduled intervals (typically daily or weekly). This means:
-
-- Accidental deletions can be recovered from the last snapshot
-- Corruption is caught before it propagates
-- Zero stress during normal operation—parities only run on schedule
-
-### Real-World Protection Example
-
-Here's how my setup works:
-- 3 data drives (8TB each) with about 20TB of media
-- 1 parity drive (8TB) providing protection
-- SnapRAID sync runs nightly at 3 AM
-
-If any one drive fails completely, I plug in a replacement, run `snapraid fix`, and every file restores perfectly. If I accidentally delete my entire Movies folder, I run `snapraid fix` and recover everything from the last sync.
-
----
-
-## Why Mergerfs + SnapRAID Beats Traditional RAID
-
-Let's break down the advantages that make this combination ideal for home media servers.
-
-### Cost Efficiency
-
-| Feature | Hardware RAID | Software RAID (mdadm/ZFS) | mergerfs + SnapRAID |
-|---------|--------------|---------------------------|---------------------|
-| RAID controller | $100-500 | Not required | Not required |
-| Same-size drives | Required | Required for efficiency | Not required |
-| Minimum drives | 2+ | 2+ | 1 data + 1 parity |
-| RAM requirements | Standard | ZFS: 1GB per TB | Minimal |
-
-**Real savings example:** With traditional RAID 5, you'd need four identical 8TB drives ($150 each = $600) plus possibly a RAID controller ($200). With mergerfs + SnapRAID, you can use that old 6TB drive sitting in a drawer, three 8TB drives from different manufacturers, and one 10TB parity drive from a Black Friday sale—whatever works.
-
-### Flexibility
-
-Traditional RAID requires planning and limits your options:
-
-- **Adding drives:** Usually requires rebuilding the entire array
-- **Expanding:** Often means backing up, destroying, and recreating
-- **Replacing:** Must use the same size or larger drives
-- **Mixing:** Different drive sizes waste capacity
-
-Mergerfs + SnapRAID embraces flexibility:
-
-- **Add drives anytime:** Just update the config and remount
-- **Remove drives:** Move data off, update config, done
-- **Mix sizes:** Use whatever drives you have
-- **Mix brands and speeds:** No performance impact on pooling
-
-### Disaster Recovery
-
-When disaster strikes, the recovery process matters:
-
-**Traditional RAID 5 single drive failure:**
-1. Replace failed drive
-2. Initiate rebuild
-3. Wait 12-48 hours under maximum stress
-4. Pray no other drives fail during rebuild
-
-**SnapRAID single drive failure:**
-1. Replace failed drive
-2. Run `snapraid fix`
-3. Wait for recovery (not stressful—the deleted data is calculated)
-4. All files restored
-
-If two drives fail in RAID 5, you lose everything. With SnapRAID and two parity drives, you survive two simultaneous failures.
-
-### Uptime Impact
-
-Traditional RAID rebuilds can take days during which:
-- Performance is severely degraded
-- All drives are under maximum stress
-- Risk of additional failures is highest
-
-SnapRAID:
-- Zero performance impact during normal operation
-- Recovery runs at your pace
-- Other drives experience no extra stress during fix operations
-
----
-
-## When NOT to Use Mergerfs + SnapRAID
-
-No solution is perfect for every situation. This combination has limitations:
-
-### Not Suitable For:
-- **Databases and VMs:** No write performance optimization, no real-time redundancy
-- **High-write workloads:** Parity updates happen on schedule, not in real-time
-- **Mission-critical systems:** You could lose up to one sync cycle of data
-- **Gaming servers:** Latency-sensitive and IOPS-heavy
-
-### Perfect For:
-- **Media libraries:** Large files that rarely change
-- **Backup archives:** Write once, read many
-- **Document storage:** Files that don't change constantly
-- **Archive servers:** Cold data with occasional access
-
-For home media servers streaming movies and TV shows, mergerfs + SnapRAID is ideal. Your media files are written once and read many times—exactly what this combination excels at.
-
----
-
-## Complete Setup Guide: Mergerfs + SnapRAID on Linux
-
-Let's walk through setting up mergerfs and SnapRAID on a Linux system. I'll use my Linux Mint setup as the reference, but these instructions work for Ubuntu, Debian, and most Linux distributions.
-
-### Prerequisites
-
-- A Linux system (Linux Mint, Ubuntu, Debian, etc.)
-- Multiple drives for data storage
-- At least one drive for parity (same size as your largest data drive)
-- Root or sudo access
-
-### Step 1: Prepare Your Drives
-
-First, identify your drives:
-
-```bash
-lsblk
-```
-
-You'll see output like:
+### Drive Layout
 
 ```
-NAME   SIZE TYPE MOUNTPOINT
-sda    8T  disk
-sdb    8T  disk
-sdc    8T  disk
-sdd    8T  disk
-nvme0n1 500G disk
-├─nvme0n1p1 512M part /boot/efi
-└─nvme0n1p2 499G part /
+NAME            SIZE  TYPE   MOUNTPOINT
+sda             3.6T  disk   (LUKS) → pool_disk2   → /mnt/disks/disk2
+sdb             3.6T  disk   (LUKS) → pool_disk1   → /mnt/disks/disk1
+sdc             3.6T  disk   (LUKS) → pool_disk4   → /mnt/disks/disk4
+sdd             3.6T  disk   (LUKS) → pool_disk3   → /mnt/disks/disk3
+sde             3.6T  disk   (LUKS) → pool_disk5   → /mnt/disks/disk5
+sdf             3.6T  disk   (LUKS) → parity_disk1 → /mnt/parity1
+nvme0n1         931G  disk   (LUKS + LVM) → /  (OS, Docker, container configs)
 ```
 
-In this example, sda through sdd are our 8TB data drives.
+Notice that `sda` is disk2 and `sdb` is disk1. Device letters are assigned by detection order and can change between boots. Never reference `/dev/sdX` in configs. Mount by mapper name, label or UUID.
 
-### Step 2: Format the Drives
+### fstab
 
-For each data drive, create a filesystem. ext4 is a solid choice for Linux:
-
-```bash
-sudo mkfs.ext4 -L disk1 /dev/sda
-sudo mkfs.ext4 -L disk2 /dev/sdb
-sudo mkfs.ext4 -L disk3 /dev/sdc
-sudo mkfs.ext4 -L parity /dev/sdd
-```
-
-The `-L` flag sets a label, making drives easier to identify.
-
-### Step 3: Create Mount Points
-
-Create directories for each drive:
-
-```bash
-sudo mkdir -p /mnt/disk1
-sudo mkdir -p /mnt/disk2
-sudo mkdir -p /mnt/disk3
-sudo mkdir -p /mnt/parity
-sudo mkdir -p /mnt/media  # This will be the mergerfs pool
-```
-
-### Step 4: Configure Automatic Mounting
-
-Add drives to `/etc/fstab` for automatic mounting on boot:
-
-```bash
-sudo nano /etc/fstab
-```
-
-Add these lines (use `blkid` to get UUIDs for more reliable mounting):
+Each data drive mounts individually, then mergerfs pools them:
 
 ```
-# Data drives
-LABEL=disk1    /mnt/disk1    ext4    defaults  0  2
-LABEL=disk2    /mnt/disk2    ext4    defaults  0  2
-LABEL=disk3    /mnt/disk3    ext4    defaults  0  2
-LABEL=parity   /mnt/parity   ext4    defaults  0  2
+/dev/mapper/pool_disk1   /mnt/disks/disk1  ext4  defaults,nofail,x-systemd.device-timeout=120  0 2
+/dev/mapper/pool_disk2   /mnt/disks/disk2  ext4  defaults,nofail,x-systemd.device-timeout=120  0 2
+/dev/mapper/pool_disk3   /mnt/disks/disk3  ext4  defaults,nofail,x-systemd.device-timeout=120  0 2
+/dev/mapper/pool_disk4   /mnt/disks/disk4  ext4  defaults,nofail,x-systemd.device-timeout=120  0 2
+/dev/mapper/pool_disk5   /mnt/disks/disk5  ext4  defaults,nofail,x-systemd.device-timeout=120  0 2
+/dev/mapper/parity_disk1 /mnt/parity1      ext4  defaults,nofail,x-systemd.device-timeout=120  0 2
+
+/mnt/disks/disk1:/mnt/disks/disk2:/mnt/disks/disk3:/mnt/disks/disk4:/mnt/disks/disk5  /mnt/storage  mergerfs  allow_other,cache.files=partial,category.create=pfrd,func.getattr=newest,dropcacheonclose=false,x-systemd.requires=/mnt/disks/disk1,x-systemd.requires=/mnt/disks/disk2,x-systemd.requires=/mnt/disks/disk3,x-systemd.requires=/mnt/disks/disk4,x-systemd.requires=/mnt/disks/disk5  0 0
 ```
 
-Mount all drives:
+The options that matter:
 
-```bash
-sudo mount -a
-```
+- **Explicit branches, not a glob.** Many guides use `/mnt/disk*`. Listing every disk explicitly means the pool's membership is written down, and the health check below can verify exactly that list.
+- **`category.create=pfrd`** ("percentage free, random distribution") places each new file on a random drive, weighted toward drives with more free space. It's mergerfs's current default, and it fills drives evenly without the trap below.
+- **`func.getattr=newest`.** When a folder exists on several drives, report the newest modification time. Media-server library scanners use folder timestamps to spot new content, so this helps them notice changes.
+- **`cache.files=partial`** lets the kernel cache file data, which helps repeated reads.
+- **`x-systemd.requires=`** for every branch makes the pool mount wait for each drive.
+- **`nofail`** lets the machine boot even if a drive is missing. That's convenient, and also dangerous, which is what the health check is for.
 
-### Step 5: Install Mergerfs
+### The Trap in "Existing Path" Policies
 
-On Linux Mint/Ubuntu/Debian:
+Older guides, including the previous version of this one, recommend `epmfs` (existing path, most free space). It keeps folders together, but it only considers drives where the target folder *already exists*. Once those drives fill up, writes fail with "No space left on device" while the pool still shows terabytes free. `pfrd` doesn't have that failure mode. If you need certain folders kept together, `epmfs` is fine; just understand why the pool will one day claim to be full.
 
-```bash
-sudo apt update
-sudo apt install mergerfs
-```
-
-### Step 6: Configure Mergerfs Pool
-
-Add the mergerfs pool to `/etc/fstab`:
+### snapraid.conf
 
 ```
-# Mergerfs pool
-/mnt/disk*:/mnt/disk*    /mnt/media    fuse.mergerfs    defaults,allow_other,use_ino,category.create=mfs  0  0
-```
-
-**Understanding the options:**
-- `/mnt/disk*:/mnt/disk*` – Includes all directories matching the pattern
-- `allow_other` – Allows non-root users to access the pool
-- `use_ino` – Preserves inode numbers for compatibility
-- `category.create=mfs` – "Most free space" policy for file creation
-
-Mount the pool:
-
-```bash
-sudo mount /mnt/media
-```
-
-Verify it's working:
-
-```bash
-df -h /mnt/media
-```
-
-You should see the combined capacity of all your drives.
-
-### Step 7: Install SnapRAID
-
-Install SnapRAID from the repository:
-
-```bash
-sudo apt install snapraid
-```
-
-On some distributions, you may need to compile from source for the latest version:
-
-```bash
-sudo apt install build-essential
-wget https://github.com/amadvance/snapraid/releases/download/v12.3/snapraid-12.3.tar.gz
-tar xvf snapraid-12.3.tar.gz
-cd snapraid-12.3
-./configure
-make
-sudo make install
-```
-
-### Step 8: Configure SnapRAID
-
-Create the SnapRAID configuration file:
-
-```bash
-sudo nano /etc/snapraid.conf
-```
-
-Add your configuration:
-
-```
-# SnapRAID configuration file
-
-# Parity drive location
-parity /mnt/parity/snapraid.parity
-
-# Content files (stored on each data drive for redundancy)
-content /mnt/parity/snapraid.content
-content /mnt/disk1/snapraid.content
-content /mnt/disk2/snapraid.content
-content /mnt/disk3/snapraid.content
-
-# Data drives
-disk d1 /mnt/disk1
-disk d2 /mnt/disk2
-disk d3 /mnt/disk3
-
-# Excluded files (don't include in parity)
-exclude *.tmp
-exclude *.temp
-exclude lost+found/
-exclude .Trash-*/
-exclude .Recycle.Bin/
-```
-
-**Key configuration points:**
-- `parity` points to your parity drive
-- `content` files should be on each drive for redundancy
-- `disk` lines define your data drives with labels
-- `exclude` lines skip files you don't want to protect
-
-### Step 9: Initial SnapRAID Sync
-
-Run your first sync:
-
-```bash
-sudo snapraid sync
-```
-
-This calculates parity for all your data. For a system with 20TB of data, this can take several hours the first time. Subsequent syncs only process changes and complete much faster.
-
-### Step 10: Schedule Daily Syncs
-
-Create a cron job for automatic syncs:
-
-```bash
-sudo crontab -e
-```
-
-Add this line to sync daily at 3 AM:
-
-```
-0 3 * * * /usr/bin/snapraid sync
-```
-
----
-
-## Mergerfs Policies Explained
-
-Mergerfs uses policies to determine where new files are placed. Understanding these helps you optimize your setup.
-
-### Available Policies
-
-| Policy | Name | Behavior |
-|--------|------|----------|
-| `mfs` | Most Free Space | Places file on drive with most free space |
-| `epmfs` | Existing Path, Most Free Space | For existing directories, uses drive with most space |
-| `lfs` | Least Free Space | Fills drives from smallest to largest |
-| `rand` | Random | Distributes files randomly |
-| `all` | All | Creates on all drives (for replication) |
-
-### Recommended Policy for Media Servers
-
-For media servers, `mfs` (Most Free Space) or `epmfs` (Existing Path, Most Free Space) are ideal:
-
-```
-/mnt/disk*:/mnt/disk*    /mnt/media    fuse.mergerfs    defaults,allow_other,use_ino,category.create=epmfs,func.create=epmfs  0  0
-```
-
-This ensures:
-- Large media files have space to complete
-- Files in the same directory stay together when possible
-- Drives fill evenly over time
-
----
-
-## SnapRAID Maintenance and Recovery
-
-SnapRAID provides several commands for maintenance and recovery.
-
-### Regular Maintenance Commands
-
-**Check parity consistency:**
-```bash
-sudo snapraid check
-```
-
-**Check with automatic repair:**
-```bash
-sudo snapraid check -f
-```
-
-**View status:**
-```bash
-sudo snapraid status
-```
-
-### Simulating a Drive Failure
-
-To test your recovery procedure without actual data loss:
-
-1. Comment out one drive in snapraid.conf
-2. Run `sudo snapraid sync`
-3. Run `sudo snapraid check`
-4. It will report errors as if that drive failed
-
-### Recovering from a Failed Drive
-
-When a drive actually fails:
-
-1. **Replace the physical drive**
-
-2. **Format the new drive:**
-   ```bash
-   sudo mkfs.ext4 -L disk1 /dev/sda
-   sudo mount /mnt/disk1
-   ```
-
-3. **Run SnapRAID fix:**
-   ```bash
-   sudo snapraid fix -d d1
-   ```
-   Replace `d1` with the disk label from your config.
-
-4. **Verify recovery:**
-   ```bash
-   sudo snapraid check
-   ```
-
-SnapRAID reconstructs all files from the parity information.
-
-### Upgrading Parity Drive
-
-When your data drives outgrow your parity drive:
-
-1. Install larger parity drive
-2. Add to fstab as /mnt/parity2
-3. Update snapraid.conf with new parity location
-4. Run `sudo snapraid sync`
-5. Remove old parity drive after successful sync
-
----
-
-## Real-World Configuration: My Linux Mint Setup
-
-Here's the actual configuration from my home media server:
-
-### Hardware Configuration
-
-```
-CPU: Intel Core i5-10400
-RAM: 16GB DDR4
-Boot Drive: 256GB NVMe SSD
-Data Drives: 3 × 8TB WD Red Plus
-Parity Drive: 10TB Seagate IronWolf
-```
-
-### Directory Structure
-
-```
-/mnt/
-├── disk1/           # WD Red Plus 8TB (data)
-│   ├── Movies/
-│   ├── TV Shows/
-│   └── snapraid.content
-├── disk2/           # WD Red Plus 8TB (data)
-│   ├── Movies/
-│   ├── Music/
-│   └── snapraid.content
-├── disk3/           # WD Red Plus 8TB (data)
-│   ├── TV Shows/
-│   ├── Photos/
-│   └── snapraid.content
-├── parity/          # Seagate IronWolf 10TB
-│   ├── snapraid.parity
-│   └── snapraid.content
-└── media/           # mergerfs pool
-    ├── Movies/      # Combined from all drives
-    ├── TV Shows/    # Combined from all drives
-    ├── Music/       # Combined from all drives
-    └── Photos/      # Combined from all drives
-```
-
-### fstab Configuration
-
-```
-# Data drives
-UUID=xxx-xxx  /mnt/disk1  ext4  defaults  0  2
-UUID=xxx-xxx  /mnt/disk2  ext4  defaults  0  2
-UUID=xxx-xxx  /mnt/disk3  ext4  defaults  0  2
-UUID=xxx-xxx  /mnt/parity ext4  defaults  0  2
-
-# Mergerfs pool
-/mnt/disk*  /mnt/media  fuse.mergerfs  defaults,allow_other,use_ino,category.create=epmfs,func.create=epmfs,fsname=media  0  0
-```
-
-### Daily Sync Script
-
-```bash
-#!/bin/bash
-# /usr/local/bin/snapraid-sync.sh
-
-LOG="/var/log/snapraid.log"
-
-echo "$(date): Starting SnapRAID sync" >> $LOG
-/usr/bin/snapraid sync >> $LOG 2>&1
-
-if [ $? -eq 0 ]; then
-    echo "$(date): SnapRAID sync completed successfully" >> $LOG
-else
-    echo "$(date): SnapRAID sync FAILED" >> $LOG
-    # Optional: Send notification email
-fi
-```
-
-### CasaOS Integration
-
-My mergerfs pool integrates seamlessly with CasaOS:
-- Containers mount `/mnt/media` for all media access
-- Download clients write to mergerfs pool
-- Media servers (Jellyfin/Plex) read from mergerfs pool
-- SnapRAID protects everything nightly
-
----
-
-## Monitoring and Alerts
-
-### SnapRAID Status Script
-
-Create a simple status check:
-
-```bash
-#!/bin/bash
-# Check SnapRAID status
-echo "=== SnapRAID Status ==="
-snapraid status
-echo ""
-echo "=== Drive Usage ==="
-df -h /mnt/disk* /mnt/parity
-```
-
-### Email Notifications
-
-Set up email alerts for failed syncs:
-
-```bash
-sudo apt install mailutils
-```
-
-Update the sync script:
-
-```bash
-#!/bin/bash
-LOG="/var/log/snapraid.log"
-EMAIL="your-email@example.com"
-
-/usr/bin/snapraid sync >> $LOG 2>&1
-
-if [ $? -ne 0 ]; then
-    echo "SnapRAID sync failed! Check logs." | mail -s "SnapRAID Alert" $EMAIL
-fi
-```
-
----
-
-## Adding New Drives to Your Pool
-
-One of mergerfs's greatest strengths is easy expansion.
-
-### Adding a New Data Drive
-
-1. **Install and format the drive:**
-   ```bash
-   sudo mkfs.ext4 -L disk4 /dev/sde
-   ```
-
-2. **Create mount point:**
-   ```bash
-   sudo mkdir /mnt/disk4
-   ```
-
-3. **Add to fstab:**
-   ```
-   LABEL=disk4  /mnt/disk4  ext4  defaults  0  2
-   ```
-
-4. **Mount the drive:**
-   ```bash
-   sudo mount /mnt/disk4
-   ```
-
-5. **Remount mergerfs pool:**
-   ```bash
-   sudo umount /mnt/media
-   sudo mount /mnt/media
-   ```
-
-6. **Update SnapRAID config:**
-   Add to `/etc/snapraid.conf`:
-   ```
-   content /mnt/disk4/snapraid.content
-   disk d4 /mnt/disk4
-   ```
-
-7. **Run sync:**
-   ```bash
-   sudo snapraid sync
-   ```
-
-Your pool now includes the new drive with zero data migration.
-
----
-
-## Troubleshooting Common Issues
-
-### Mergerfs Won't Mount
-
-**Symptom:** `mount: unknown filesystem type 'fuse.mergerfs'`
-
-**Solution:** Ensure mergerfs is installed and FUSE is working:
-```bash
-sudo apt install mergerfs fuse
-sudo modprobe fuse
-```
-
-### Files Disappear After Reboot
-
-**Symptom:** Files written to merged pool are gone after reboot
-
-**Solution:** Check that underlying drives are mounted before mergerfs:
-```bash
-mount | grep /mnt/disk
-```
-All data drives must be mounted before mergerfs can show their contents.
-
-### SnapRAID Sync Takes Too Long
-
-**Symptom:** First-time sync running for days
-
-**Solution:** This is normal for large datasets. Subsequent syncs:
-- Only process changed files
-- Complete in minutes to hours depending on changes
-- Run during off-hours to minimize impact
-
-### Drive Full Error with Space Available
-
-**Symptom:** "No space left on device" but df shows free space
-
-**Solution:** Check reserved blocks:
-```bash
-sudo tune2fs -l /dev/sda1 | grep Reserved
-```
-
-Reduce reserved space:
-```bash
-sudo tune2fs -m 1 /dev/sda1
-```
-
----
-
-## SnapRAID with Multiple Parity Drives
-
-For additional protection, use multiple parity drives:
-
-```
-# In snapraid.conf
 parity /mnt/parity1/snapraid.parity
+
+content /var/snapraid/snapraid.content
+content /mnt/disks/disk1/.snapraid.content
+content /mnt/disks/disk2/.snapraid.content
+content /mnt/disks/disk3/.snapraid.content
+content /mnt/disks/disk4/.snapraid.content
+content /mnt/disks/disk5/.snapraid.content
+
+data d1 /mnt/disks/disk1
+data d2 /mnt/disks/disk2
+data d3 /mnt/disks/disk3
+data d4 /mnt/disks/disk4
+data d5 /mnt/disks/disk5
+
+exclude *.unrecoverable
+exclude /tmp/
+exclude /lost+found/
+exclude .DS_Store
+exclude ._*
+exclude *.!sync
+exclude /appdata/
+exclude /backups/appdata/
+exclude /timeshift/
+# (one site-specific exclude for an in-progress download folder trimmed)
+
+blocksize 256
+autosave 500
+```
+
+Why it looks like this:
+
+- **Six copies of the content file.** The content file is SnapRAID's index of every file and block. Lose all copies and parity is useless. Each copy is about 740MB for 11TB of data, and there's one on every data drive plus one on the NVMe.
+- **`autosave 500`** saves SnapRAID's progress every 500GB during a sync. If an initial sync of many terabytes is interrupted, you lose at most the last 500GB of work instead of starting over. (Mine was cut off by a reboot after about five minutes, too early for any autosave to have happened, so it simply ran again.)
+- **Excluded: constantly changing data.** Container configs, databases and half-finished downloads change during the sync window, and changing files are what SnapRAID protects worst.
+- **Parity size.** My parity file is 2.87TB, not 11TB. The parity file grows to roughly the size of the *fullest* data drive's protected data, not the total. That's why one 4TB parity drive can protect five 4TB data drives.
+
+## The Guard: Never Start Docker on a Half-Mounted Pool
+
+This is the piece most guides miss, and it's the piece I'd copy first.
+
+Because of `nofail`, the server will boot happily with a drive missing. mergerfs will then pool whatever drives *did* mount. Docker starts, a container looks for its files, doesn't find them (they're on the missing drive), and writes fresh defaults onto one of the drives that is present. When the missing drive comes back, you have two copies of the same path on different drives. mergerfs shows you one of them, and it may not be the one you want.
+
+My server blocks that with a small check that runs before Docker:
+
+{% raw %}
+```bash
+#!/usr/bin/env bash
+# /usr/local/bin/pool-health-check.sh
+# Verify every expected mergerfs branch is mounted before Docker starts.
+set -uo pipefail
+DISKS=(/mnt/disks/disk1 /mnt/disks/disk2 /mnt/disks/disk3 /mnt/disks/disk4 /mnt/disks/disk5)
+MISSING=()
+for d in "${DISKS[@]}"; do
+  mountpoint -q "$d" || MISSING+=("$d")
+done
+if ! mountpoint -q /mnt/storage; then
+  echo "POOL FAIL: /mnt/storage is not mounted"; exit 1
+fi
+if [ ${#MISSING[@]} -gt 0 ]; then
+  echo "POOL FAIL: branches not mounted: ${MISSING[*]}"
+  echo "Docker is being held back to protect appdata from being overwritten."
+  exit 1
+fi
+echo "POOL OK: all ${#DISKS[@]} branches mounted"
+```
+{% endraw %}
+
+It runs as a one-shot systemd service, `pool-health.service`, ordered `Before=docker.service`. A drop-in makes Docker depend on it:
+
+```ini
+# /etc/systemd/system/docker.service.d/10-wait-for-storage.conf
+[Unit]
+RequiresMountsFor=/mnt/storage
+After=mnt-storage.mount pool-health.service
+Requires=pool-health.service
+```
+
+If any drive is missing, Docker doesn't start. You fix the drive, then run `sudo systemctl start docker`. An evening of downtime beats an evening untangling duplicate config folders.
+
+**When you add a drive, update the `DISKS` list.** The check only knows about the drives you tell it about.
+
+## The Schedule
+
+```
+# /etc/cron.d/snapraid
+0 4 * * *   root /usr/local/bin/snapraid-sync.sh
+0 5 * * 0   root snapraid scrub -p 8 -o 10 >> /var/log/snapraid.log 2>&1
+```
+
+- **Nightly sync at 4:00 AM.** On my array, routine syncs take **4.5 to 18 minutes**.
+- **Weekly scrub, Sunday 5:00 AM.** `-p 8 -o 10` re-reads 8% of the array, choosing blocks not checked in the last 10 days, and verifies them against parity. That catches silent corruption and failing sectors *before* you need them for a rebuild. Over a few months, every block gets checked. If your guide never mentions scrubbing, it's only telling you half the job.
+
+## What the First Week of Logs Exposed
+
+### 1. My sync script reported success when the sync had failed
+
+Here's the sync wrapper as it was written:
+
+```bash
+#!/usr/bin/env bash
+set -uo pipefail
+LOG=/var/log/snapraid.log
+echo "=== $(date) sync ===" >> "$LOG"
+snapraid sync >> "$LOG" 2>&1
+echo "=== $(date) sync done (rc=$?) ===" >> "$LOG"
+```
+
+It looks right. Now here's Monday's 4 AM entry from the log:
+
+```
+=== Mon Sep 28 04:00:01 AM EDT 2026 sync ===
+The lock file '/var/snapraid/snapraid.content.lock' is already in use!
+SnapRAID is already in use!
+=== Mon Sep 28 04:00:01 AM EDT 2026 sync done (rc=0) ===
+```
+
+The sync failed: the initial sync was still running and held the lock. Yet it logged **`rc=0`**. The bug is in the last line. Bash expands `$(date)` *before* `$?`, and running `date` resets `$?` to `date`'s own exit code, which is always 0. So this script reports success no matter what SnapRAID does. You can prove it in one line:
+
+```bash
+bash -c 'false; echo "rc=$?"'            # rc=1  — correct
+bash -c 'false; echo "$(date) rc=$?"'    # ... rc=0 — wrong
+```
+
+The fix is to capture the exit code immediately and pass it on:
+
+```bash
+#!/usr/bin/env bash
+set -uo pipefail
+LOG=/var/log/snapraid.log
+echo "=== $(date) sync ===" >> "$LOG"
+snapraid sync >> "$LOG" 2>&1
+rc=$?
+echo "=== $(date) sync done (rc=$rc) ===" >> "$LOG"
+exit "$rc"
+```
+
+Two more lessons from that night:
+
+- **The nightly job collided with the first sync.** An initial sync of ~11TB runs for hours. Mine was running at about 255 MB/s with the CPU at 7–9%, and it was still going at 4 AM. SnapRAID's lock file correctly refused to run twice, so no harm was done. But the cron job should be disabled until the initial sync has finished.
+- **A log that always says `rc=0` is worse than no log.** It trains you to stop reading it. If you alert on failures, alert on the real exit code.
+
+### 2. The first sync stopped on read errors
+
+The very first sync aborted with:
+
+```
+DANGER! Unexpected input/output read error in a data disk, it isn't possible to sync.
+```
+
+It had hit read errors on five files across four of the data drives. Here's what I checked, in order, before assuming a drive was dying:
+
+1. **Where were the errors?** All five files sat inside desktop trash folders (`.Trash-1000`) on the data drives. These were deleted files the file manager had moved to a hidden per-drive trash, about 105GB in total. They were spread almost evenly across four drives. A failing drive doesn't sort its bad sectors into the trash folder.
+2. **Did the kernel log any disk errors?** No I/O, medium-error, link-reset or filesystem errors, in that boot or since.
+3. **Can the files be read now?** All five read cleanly from start to finish.
+4. **What was happening at the time?** The server rebooted four times that evening while drives were being installed. The first sync started at 7:27 PM, and the machine rebooted at 7:32.
+
+I haven't pinned down the root cause. The pattern points at something transient during the upgrade session rather than failing hardware, and every sync since reads "Everything OK." Still, read errors earn a SMART check of every drive (`sudo smartctl -a /dev/sdX`) and close attention to the first few scrubs.
+
+The practical lesson: **exclude desktop trash folders from SnapRAID.** Mine was protecting 105GB of files that had already been deleted:
+
+```
+exclude .Trash-*/
+```
+
+### 3. SnapRAID told me I need more parity
+
+Every run prints:
+
+```
+WARNING! For 5 disks, it's recommended to use two parity levels.
+```
+
+It's right. With one parity drive, the array survives **one** drive failure. A second failure during the rebuild costs that drive's files. With five data drives, four of them shucked and of unknown age, a second parity drive is the next upgrade. Adding one is a single config line plus a sync:
+
+```
 2-parity /mnt/parity2/snapraid.2-parity
 ```
 
-With two parity drives, you can survive two simultaneous drive failures. With three parity drives, three failures. This is similar to RAID 6 but with the snapshot approach.
+## Adding a Drive: What the Upgrade Involved
 
-### Parity Drive Sizing
+Growing the pool from four data drives to five, plus adding parity, came down to these steps:
 
-Your parity drive(s) must be at least as large as your largest data drive. Using a larger parity drive allows for future expansion:
+1. **Install the drives** and identify them with `lsblk`. Note the model names, not the `sdX` letters.
+2. **Encrypt each drive** with LUKS and set it to unlock at boot, the same way as the existing drives. (Skip this step if you don't encrypt.)
+3. **Create ext4 filesystems** on the unlocked devices.
+4. **Add an fstab line for each drive**, using the mapper name, with `nofail`.
+5. **Add the new data drive to the mergerfs line**, both the branch list *and* an `x-systemd.requires=` entry, then remount the pool.
+6. **Add the drive to the health check's `DISKS` list.**
+7. **Add `data` and `content` lines** for the new drive, and a `parity` line for the parity drive, to `snapraid.conf`.
+8. **Disable the nightly sync cron job**, run the initial `snapraid sync` by hand, then re-enable it.
 
-- If largest data drive = 8TB, parity must be ≥ 8TB
-- Using a 10TB parity drive allows future 10TB data drives
+No data moved. The existing drives kept their files, and with `pfrd` the new, mostly empty drive simply receives more of the new writes from now on.
 
----
+## Recovering From a Failed Drive
 
-## Performance Considerations
+When a data drive dies:
 
-### Mergerfs Performance
+1. **Stop writing to the pool.** Every change since the last sync shrinks what parity can rebuild.
+2. **Replace the drive** with one at least as large, then set it up (LUKS, ext4) and mount it at the **same path** as the old one.
+3. **Rebuild it:**
+   ```bash
+   sudo snapraid -d d3 -l fix.log fix
+   ```
+   Replace `d3` with the failed drive's name from `snapraid.conf`.
+4. **Verify it:**
+   ```bash
+   sudo snapraid -d d3 -a check
+   ```
+5. **Sync** once everything checks out.
 
-Mergerfs adds minimal overhead:
+To **practise** recovery without risking anything, copy a single file off the pool, delete the original, and restore it with `sudo snapraid fix -f "/path/to/that/file"` (the path as it sits on its data drive, which `snapraid diff` or `ls /mnt/disks/*/...` will show you). **Never** practise by commenting a drive out of `snapraid.conf` and running `sync`. That recomputes parity *without* the drive, and its files are left unprotected without any warning. (An earlier version of this guide recommended exactly that. It's gone.)
 
-- **Read performance:** Same as underlying drive (no overhead)
-- **Write performance:** Minimal FUSE overhead (usually <5%)
-- **Directory listing:** Slightly slower due to aggregation
+## Useful Commands
 
-For media streaming, you'll never notice the difference—a 4K stream needs ~100 Mbps, while any modern drive delivers >1000 Mbps.
+```bash
+sudo snapraid status      # array health, sync age, scrub coverage
+sudo snapraid diff        # what the next sync will change (good before syncing after big deletions)
+sudo snapraid smart       # SMART summary and failure-probability estimate for every drive
+sudo snapraid scrub -p 5  # verify a slice of the array against parity
+df -h /mnt/disks/* /mnt/parity1 /mnt/storage
+```
 
-### SnapRAID Performance
+Run `snapraid diff` before syncing after large deletions. If it shows thousands of files removed that you didn't remove, a drive may have failed to mount. Don't sync, because the sync would record those files as gone.
 
-Since SnapRAID operates on a schedule, it doesn't affect daily performance:
+## Bottom Line
 
-- **Normal operation:** Zero performance impact
-- **During sync:** Moderate I/O on all drives
-- **During check:** Moderate I/O on all drives
-- **Recovery:** Depends on amount of data to restore
+mergerfs + SnapRAID is the best storage setup I know of for a home media library. It's cheap, it grows a drive at a time, it tolerates mixed and shucked drives, and a failure costs you a weekend rather than your library. But it's only as good as the parts nobody puts in the tutorials:
 
-Schedule syncs during off-hours (nighttime for most users) to avoid any noticeable impact.
+- A **guard** that stops services starting on a half-mounted pool
+- **Weekly scrubs**, not just nightly syncs
+- A sync script whose exit codes you can **trust**
+- **Parity proportional to your drive count**
+- And, as with anything, a **real backup** of what you can't replace
 
----
+Mine ran for four months with no parity at all, then had a sync script that couldn't report failure. Both are fixed now. Check yours.
 
-## Conclusion
+## Related Reading
 
-The mergerfs + SnapRAID combination provides the best balance of simplicity, flexibility, and protection for home media servers. You get:
-
-- **Unified storage** – All your drives appear as one massive pool
-- **Data protection** – Survive drive failures without traditional RAID complexity
-- **Mix-and-match drives** – Use whatever hardware you have or can afford
-- **Easy expansion** – Add drives without rebuilding arrays
-- **Low cost** – No expensive RAID controllers required
-
-On my Linux Mint media server running CasaOS, mergerfs combines my storage while SnapRAID ensures that even a complete drive failure is just a minor inconvenience rather than a catastrophe. The one-time setup investment pays dividends for years in worry-free storage management.
-
-If you're building a home media server, skip the traditional RAID route. Your wallet and your sanity will thank you.
-
----
-
-**Ready to build your storage pool?** Start with two drives—one for data, one for parity—and expand as your media library grows. The mergerfs + SnapRAID combination scales from a single parity drive protecting one disk to multiple parity drives safeguarding dozens of disks, all with the same simple configuration.
+- [Best NAS Hard Drives: CMR, SMR, and When It Matters](/storage/best-nas-hard-drives-2026/)
+- [RAID Levels Explained for Media Servers](/storage/raid-levels-explained-media-server/)
+- [How to Back Up a Media Library: The 3-2-1 Strategy](/storage/backup-media-library-3-2-1-guide/)
+- [SSD vs HDD for Media Servers](/storage/ssd-vs-hdd-media-server-2026/)
+- [Jellyfin Hardware Transcoding on the Same Server](/media-servers/jellyfin-hardware-transcoding-guide/)
