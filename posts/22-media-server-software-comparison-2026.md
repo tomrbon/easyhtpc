@@ -446,7 +446,7 @@ UMS relies primarily on DLNA/UPnP, meaning it streams to any DLNA-compatible dev
 For more on setting up your media server infrastructure, check out these guides:
 
 - [Jellyfin vs Plex vs Emby Comparison](/media-servers/jellyfin-plex-emby-comparison/)
-- [NAS Setup for Home Media](/media-servers/nas-setup-home-media/)
+- [NAS Setup for Home Media](/storage/nas-setup-home-media/)
 - [Best Mini PC for Plex 2026](/mini-pcs/best-mini-pc-plex-2026/)
 - [Best External Hard Drives for HTPC](/storage/best-nas-for-plex-2026/)
 

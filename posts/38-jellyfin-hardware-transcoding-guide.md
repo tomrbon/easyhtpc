@@ -27,7 +27,7 @@ Concrete hardware, because the details below only make sense against a real mach
 | iGPU | Intel UHD Graphics 630 (`00:02.0`) |
 | Second GPU | AMD Radeon Pro WX 4100 (`01:00.0`) |
 | OS | Linux Mint 22.2, kernel 6.17 |
-| Storage | 15TB mergerfs pool across 4 drives (9.1TB used) |
+| Storage | 18TB mergerfs pool, 5 data drives + 1 SnapRAID parity, all LUKS-encrypted ([full setup](/media-servers/mergerfs-snapraid-guide/)) |
 | Jellyfin | linuxserver.io image, Docker Compose |
 
 That second GPU matters more than you'd think — it's the source of the trap in step 2.
@@ -56,9 +56,11 @@ Read it closely. There is **no `devices:` block and no `group_add:`**. The conta
 
 Confirming it from the host takes one command:
 
+{% raw %}
 ```bash
 docker inspect jellyfin --format 'Devices: {{json .HostConfig.Devices}}  GroupAdd: {{json .HostConfig.GroupAdd}}'
 ```
+{% endraw %}
 
 Mine returned:
 
@@ -141,7 +143,7 @@ Here's the same service with hardware transcoding actually enabled — the two a
       - PGID=1000
       - TZ=America/New_York
     volumes:
-      - /mnt/storage/appdata/jellyfin:/config
+      - /opt/appdata/jellyfin:/config              # moved to NVMe since this was written
       - /mnt/storage/data/media:/media
     ports:
       - 8096:8096
@@ -305,10 +307,12 @@ And every transcode you avoid entirely beats every transcode you accelerate — 
 
 Hardware transcoding fails quietly. It doesn't throw errors, it doesn't warn you — it just burns CPU while you assume the iGPU is handling it. Two commands tell you the truth:
 
+{% raw %}
 ```bash
 docker inspect jellyfin --format '{{json .HostConfig.Devices}}'
 docker exec jellyfin /usr/lib/jellyfin-ffmpeg/vainfo --display drm --device /dev/dri/renderD128
 ```
+{% endraw %}
 
 `null` on the first or a driver error on the second means you're transcoding on the CPU right now.
 

@@ -431,7 +431,7 @@ Most mini PCs allow RAM and SSD upgrades. CPU and GPU are soldered. Check specs 
 *Small server, big library. That's the mini PC advantage.*
 
 **Related Reading:**
-- [Best NAS for Plex Server 2026](/mini-pcs/best-nas-for-plex-2026/)
-- [CasaOS Setup Guide](/mini-pcs/casaos-setup-guide/)
-- [Best HTPC Remotes 2026](/mini-pcs/best-htpc-remotes-2026/)
+- [Best NAS for Plex Server 2026](/storage/best-nas-for-plex-2026/)
+- [CasaOS Setup Guide](/media-servers/casaos-setup-guide/)
+- [Best HTPC Remotes 2026](/remotes/best-htpc-remotes-2026/)
 - [Best VPN for Streaming](/vpn/best-vpn-streaming-2026/)

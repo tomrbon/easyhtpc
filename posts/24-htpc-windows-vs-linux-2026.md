@@ -265,7 +265,7 @@ For more on HTPC setup and configuration:
 
 - [How to Build the Perfect HTPC](/mini-pcs/how-to-build-htpc-2026/)
 - [Best Mini PC for Plex 2026](/mini-pcs/best-mini-pc-plex-2026/)
-- [CasaOS Setup Guide](/mini-pcs/casaos-setup-guide/)
+- [CasaOS Setup Guide](/media-servers/casaos-setup-guide/)
 - [Media Server Software Comparison](/media-servers/jellyfin-plex-emby-comparison/)
 
 ---

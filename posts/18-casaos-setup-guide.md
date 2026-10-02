@@ -66,7 +66,7 @@ CasaOS installs on virtually any Linux distribution. Popular choices include:
 | Linux Mint | User-friendly, familiar desktop | Desktop overhead | Transitioning from Windows |
 | Raspberry Pi OS | Optimized for Pi hardware | ARM-only | Raspberry Pi builds |
 
-**Real-world example:** My personal setup runs CasaOS on a Linux Mint base system. Linux Mint provides a familiar desktop environment for occasional maintenance tasks, while CasaOS handles all the containerized media server applications. This combination gives me the best of both worlds—desktop convenience when I need it, and a clean web interface for day-to-day server management.
+**A common pairing:** CasaOS on a Linux Mint base system. Linux Mint provides a familiar desktop environment for occasional maintenance tasks, while CasaOS handles all the containerized media server applications. You get the best of both worlds—desktop convenience when you need it, and a clean web interface for day-to-day server management.
 
 ### Pre-Built Media Server Apps
 
@@ -143,7 +143,7 @@ First, update your system packages:
 sudo apt update && sudo apt upgrade -y
 ```
 
-If you're using Linux Mint like my setup, the same apt commands work perfectly. The goal is to start with a clean, updated system.
+If you're using Linux Mint, the same apt commands work perfectly. The goal is to start with a clean, updated system.
 
 ### Step 2: Install Docker
 
@@ -348,7 +348,7 @@ For a Linux Mint + CasaOS setup, consider these storage best practices:
 2. **Use mergerfs for pooled storage** – Combine multiple drives into one mount point
 3. **Consider SnapRAID for redundancy** – Protect against drive failures without expensive RAID
 
-My setup uses Linux Mint as the base OS with mergerfs combining multiple data drives and SnapRAID providing snapshot-based redundancy. CasaOS containers access the merged storage at /mnt/media, making media management seamless.
+A popular layout uses Linux Mint as the base OS, mergerfs combining multiple data drives, and SnapRAID providing snapshot-based redundancy. CasaOS containers access the merged storage at /mnt/media, making media management seamless.
 
 ### Hardware Transcoding
 
@@ -488,9 +488,9 @@ This is useful for separating media download clients from media servers.
 
 ---
 
-## Real-World Setup: Linux Mint + CasaOS
+## Example Setup: Linux Mint + CasaOS
 
-Here's how my personal media server is configured:
+Here's what a typical CasaOS media server layout looks like. (The server behind this site runs plain Docker Compose rather than CasaOS — its real mergerfs + SnapRAID configuration is documented in our [Mergerfs + SnapRAID guide](/media-servers/mergerfs-snapraid-guide/).)
 
 ### Hardware
 - Intel Core i5 processor
